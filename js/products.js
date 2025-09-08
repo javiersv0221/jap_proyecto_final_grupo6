@@ -32,14 +32,12 @@ async function fetchAllProducts() {
         return [];
     }
     const allCategories = allCategoriesData?.data ?? [];
-    let allProducts = [];
+   
+    const productsArrays = await Promise.all(
+        allCategories.map(category => fetchProductsByCatID(category.id))
+    );
 
-    for (const category of allCategories) {
-        const products = await fetchProductsByCatID(category.id);
-        allProducts = allProducts.concat(products);
-    }
-
-    return allProducts;
+    return productsArrays.flat();
 }
 
 // Función que filtra y muestra los productos según el término de búsqueda (searchTerm -> QueryParam "search")
