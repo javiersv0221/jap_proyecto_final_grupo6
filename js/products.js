@@ -1,8 +1,10 @@
+// Función que obtiene el parámetro de búsqueda de la URL  (QueryParam "search") 
 function getSearchQueryParam() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("search");
 }
 
+// Función que obtiene los productos de una categoría por su ID
 async function fetchProductsByCatID(id) {
     const jsonData = await getJSONData(PRODUCTS_URL + id + EXT_TYPE);
     if (jsonData.status === "error") {
@@ -12,6 +14,7 @@ async function fetchProductsByCatID(id) {
     return jsonData?.data?.products ?? [];
 }
 
+// Función que obtiene la información de una categoría por su ID
 async function fetchCategoryByID(id) {
     const jsonData = await getJSONData(CATEGORIES_URL);
     if (jsonData.status === "error") {
@@ -21,6 +24,7 @@ async function fetchCategoryByID(id) {
     return jsonData?.data?.find(cat => cat.id === parseInt(id)) ?? null;
 }
 
+// Función que obtiene todos los productos de todas las categorías
 async function fetchAllProducts() {
     const allCategoriesData = await getJSONData(CATEGORIES_URL);
     if (allCategoriesData.status === "error") {
@@ -38,7 +42,7 @@ async function fetchAllProducts() {
     return allProducts;
 }
 
-
+// Función que filtra y muestra los productos según el término de búsqueda (searchTerm -> QueryParam "search")
 async function displaySearchProducts(searchTerm) {
     const lowerSearchTerm = searchTerm.toLowerCase();
     const searchProducts = await fetchAllProducts().then(products => {
@@ -51,6 +55,8 @@ async function displaySearchProducts(searchTerm) {
     displayProducts(searchProducts);
 }
 
+
+// Función que muestra los productos de una categoría específica (catID -> localStorage "catID")
 async function displayCategoryProducts() {
 
     const catID = localStorage.getItem("catID");
@@ -84,6 +90,8 @@ async function displayCategoryProducts() {
 
 }
 
+// Función que muestra los productos seleccionados (productos por categoría o por búsqueda) 
+// en el contenedor HTML
 async function displayProducts(products) {
     try {
         const container = document.getElementById("products");
@@ -151,6 +159,9 @@ async function displayProducts(products) {
     }
 }
 
+// Al cargar la página, verifico si hay un parámetro de búsqueda en la URL
+// Si lo hay, muestro los productos que coinciden con la búsqueda (QueryParam "search")
+// Si no lo hay, muestro los productos de la categoría seleccionada (localStorage "catID")
 document.addEventListener("DOMContentLoaded", async () => {
 
     const searchQuery = getSearchQueryParam();
