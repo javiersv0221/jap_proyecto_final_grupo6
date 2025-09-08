@@ -98,7 +98,7 @@ async function displayProducts(products) {
 
         if (products.length === 0) {
             let msg = document.createElement("p");
-            msg.textContent = "No se encontraron productos para esta categoría.";
+            msg.textContent = "No se encontraron productos.";
             container.appendChild(msg);
             return;
         }
