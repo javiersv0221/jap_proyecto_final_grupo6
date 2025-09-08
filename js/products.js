@@ -45,7 +45,7 @@ async function displaySearchProducts(searchTerm) {
     const lowerSearchTerm = searchTerm.toLowerCase();
     const searchProducts = await fetchAllProducts().then(products => {
         return products.filter(product => {
-            return lowerSearchTerm.length == 0 ||
+            return lowerSearchTerm.length === 0 ||
                 (product.name.toLowerCase().includes(lowerSearchTerm)) ||
                 (product.description.toLowerCase().includes(lowerSearchTerm));
         });
