@@ -1,3 +1,8 @@
+function getSearchQueryParam() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("search");
+}
+
 async function fetchProductsByCatID(id) {
     const jsonData = await getJSONData(PRODUCTS_URL + id + EXT_TYPE);
     if (jsonData.status === "error") {
@@ -16,37 +21,74 @@ async function fetchCategoryByID(id) {
     return jsonData?.data?.find(cat => cat.id === parseInt(id)) ?? null;
 }
 
-async function displayProducts() {
+async function fetchAllProducts() {
+    const allCategoriesData = await getJSONData(CATEGORIES_URL);
+    if (allCategoriesData.status === "error") {
+        console.error("fetchAllProducts() - error: ", allCategoriesData.data);
+        return [];
+    }
+    const allCategories = allCategoriesData?.data ?? [];
+    let allProducts = [];
+
+    for (const category of allCategories) {
+        const products = await fetchProductsByCatID(category.id);
+        allProducts = allProducts.concat(products);
+    }
+
+    return allProducts;
+}
+
+
+async function displaySearchProducts(searchTerm) {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    const searchProducts = await fetchAllProducts().then(products => {
+        return products.filter(product => {
+            return lowerSearchTerm.length == 0 ||
+                (product.name.toLowerCase().includes(lowerSearchTerm)) ||
+                (product.description.toLowerCase().includes(lowerSearchTerm));
+        });
+    });
+    displayProducts(searchProducts);
+}
+
+async function displayCategoryProducts() {
+
+    const catID = localStorage.getItem("catID");
+    if (!catID) {
+        console.error("displayProducts() - error: no category ID found");
+        document.getElementById("category").textContent = "Categoría no encontrada";
+        document.getElementById("categoryDescription").textContent = "";
+        return;
+    }
+
+    const category = await fetchCategoryByID(catID);
+    if (!category) {
+        document.getElementById("category").textContent = "Categoría no encontrada";
+        document.getElementById("categoryDescription").textContent = "";
+        return;
+    }
+
+    document.getElementById("category").textContent = category.name;
+    document.getElementById("categoryDescription").textContent = category.description;
+
+    const products = await fetchProductsByCatID(catID);
+    if (products === null) {
+        console.error("displayProducts() - error: error loading products for category ID", catID);
+        let msg = document.createElement("p");
+        msg.textContent = "Error al cargar los productos de la categoría.";
+        container.appendChild(msg);
+        return;
+    }
+
+    displayProducts(products);
+
+}
+
+async function displayProducts(products) {
     try {
         const container = document.getElementById("products");
         container.innerHTML = "";
 
-        const catID = localStorage.getItem("catID");
-        if (!catID) {
-            console.error("displayProducts() - error: no category ID found");
-            document.getElementById("category").textContent = "Categoría no encontrada";
-            document.getElementById("categoryDescription").textContent = "";
-            return;
-        }
-
-        const category = await fetchCategoryByID(catID);
-        if (!category) {
-            document.getElementById("category").textContent = "Categoría no encontrada";
-            document.getElementById("categoryDescription").textContent = "";
-            return;
-        }
-
-        document.getElementById("category").textContent = category.name;
-        document.getElementById("categoryDescription").textContent = category.description;
-
-        const products = await fetchProductsByCatID(catID);
-        if (products === null) {
-            console.error("displayProducts() - error: error loading products for category ID", catID);
-            let msg = document.createElement("p");
-            msg.textContent = "Error al cargar los productos de la categoría.";
-            container.appendChild(msg);
-            return;
-        }
 
         if (products.length === 0) {
             let msg = document.createElement("p");
@@ -110,7 +152,16 @@ async function displayProducts() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    await displayProducts();
+
+    const searchQuery = getSearchQueryParam();
+    if (searchQuery !== null) {
+        document.getElementById("search").value = searchQuery;
+        document.getElementById("category-info").style.display = "none";
+        await displaySearchProducts(searchQuery);
+        return;
+    }
+
+    await displayCategoryProducts();
 });
 
 

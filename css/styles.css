@@ -336,3 +336,50 @@ nav ul li a:hover {
     display: flex;
   }
 }
+
+
+
+
+/* ----- Barra de Búsqueda ----- */
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 320px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+
+.search-container input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  font-size: 15px;
+  
+}
+
+
+.search-container .search-button {
+  background: #f4f4f4;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+
+.search-container .search-button:hover {
+  background: #e0e0e0;
+}
+
+
+.search-container .material-icons {
+  font-size: 20px;
+  color: black;
+}
