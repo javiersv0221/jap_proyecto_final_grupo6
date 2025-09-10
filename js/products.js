@@ -1,5 +1,6 @@
 const orderSelect = document.getElementById ("order");
-
+const minInput = document.getElementById("minPrice");
+const maxInput = document.getElementById("maxPrice");
 // Función que obtiene el parámetro de búsqueda de la URL  (QueryParam "search")
 function getSearchQueryParam() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -97,7 +98,8 @@ async function displayCategoryProducts() {
 // en el contenedor HTML
 async function displayProducts(products) {
   try {
-    products = sortProducts(getSortCriteria(), products);
+    products = filterProducts(products);
+    products = sortProducts(orderSelect.value, products);
     const container = document.getElementById("products");
     container.innerHTML = "";
 
@@ -285,3 +287,24 @@ orderSelect.addEventListener("change", async () => {
     await loadProducts();
 });
 
+function filterProducts(array) {
+  let min = parseInt(minInput.value);
+  let max = parseInt(maxInput.value);
+    if (isNaN(min)) min = undefined;
+    if (isNaN(max)) max = undefined;
+console.log(min, max);
+  return array.filter((product) => {
+    const cost = product.cost;
+    if ((min === undefined || cost >= min) && (max === undefined || cost <= max)) {
+      return true;
+    }
+    return false;
+  });
+}
+minInput.addEventListener("input", async () => {
+    await loadProducts();
+});
+
+maxInput.addEventListener("input", async () => {
+    await loadProducts();
+});
