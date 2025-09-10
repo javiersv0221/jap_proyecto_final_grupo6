@@ -1,3 +1,10 @@
+// Función que obtiene el parámetro de búsqueda de la URL  (QueryParam "search") 
+function getSearchQueryParam() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("search");
+}
+
+// Función que obtiene los productos de una categoría por su ID
 async function fetchProductsByCatID(id) {
     const jsonData = await getJSONData(PRODUCTS_URL + id + EXT_TYPE);
     if (jsonData.status === "error") {
@@ -7,6 +14,7 @@ async function fetchProductsByCatID(id) {
     return jsonData?.data?.products ?? [];
 }
 
+// Función que obtiene la información de una categoría por su ID
 async function fetchCategoryByID(id) {
     const jsonData = await getJSONData(CATEGORIES_URL);
     if (jsonData.status === "error") {
@@ -16,41 +24,81 @@ async function fetchCategoryByID(id) {
     return jsonData?.data?.find(cat => cat.id === parseInt(id)) ?? null;
 }
 
-async function displayProducts() {
+// Función que obtiene todos los productos de todas las categorías
+async function fetchAllProducts() {
+    const allCategoriesData = await getJSONData(CATEGORIES_URL);
+    if (allCategoriesData.status === "error") {
+        console.error("fetchAllProducts() - error: ", allCategoriesData.data);
+        return [];
+    }
+    const allCategories = allCategoriesData?.data ?? [];
+   
+    const productsArrays = await Promise.all(
+        allCategories.map(category => fetchProductsByCatID(category.id))
+    );
+
+    return productsArrays.flat();
+}
+
+// Función que filtra y muestra los productos según el término de búsqueda (searchTerm -> QueryParam "search")
+async function displaySearchProducts(searchTerm) {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    const searchProducts = await fetchAllProducts().then(products => {
+        return products.filter(product => {
+            return lowerSearchTerm.length === 0 ||
+                (product.name.toLowerCase().includes(lowerSearchTerm)) ||
+                (product.description.toLowerCase().includes(lowerSearchTerm));
+        });
+    });
+    displayProducts(searchProducts);
+}
+
+
+// Función que muestra los productos de una categoría específica (catID -> localStorage "catID")
+async function displayCategoryProducts() {
+
+    const catID = localStorage.getItem("catID");
+    if (!catID) {
+        console.error("displayProducts() - error: no category ID found");
+        document.getElementById("category").textContent = "Categoría no encontrada";
+        document.getElementById("categoryDescription").textContent = "";
+        return;
+    }
+
+    const category = await fetchCategoryByID(catID);
+    if (!category) {
+        document.getElementById("category").textContent = "Categoría no encontrada";
+        document.getElementById("categoryDescription").textContent = "";
+        return;
+    }
+
+    document.getElementById("category").textContent = category.name;
+    document.getElementById("categoryDescription").textContent = category.description;
+
+    const products = await fetchProductsByCatID(catID);
+    if (products === null) {
+        console.error("displayProducts() - error: error loading products for category ID", catID);
+        let msg = document.createElement("p");
+        msg.textContent = "Error al cargar los productos de la categoría.";
+        container.appendChild(msg);
+        return;
+    }
+
+    displayProducts(products);
+
+}
+
+// Función que muestra los productos seleccionados (productos por categoría o por búsqueda) 
+// en el contenedor HTML
+async function displayProducts(products) {
     try {
         const container = document.getElementById("products");
         container.innerHTML = "";
 
-        const catID = localStorage.getItem("catID");
-        if (!catID) {
-            console.error("displayProducts() - error: no category ID found");
-            document.getElementById("category").textContent = "Categoría no encontrada";
-            document.getElementById("categoryDescription").textContent = "";
-            return;
-        }
-
-        const category = await fetchCategoryByID(catID);
-        if (!category) {
-            document.getElementById("category").textContent = "Categoría no encontrada";
-            document.getElementById("categoryDescription").textContent = "";
-            return;
-        }
-
-        document.getElementById("category").textContent = category.name;
-        document.getElementById("categoryDescription").textContent = category.description;
-
-        const products = await fetchProductsByCatID(catID);
-        if (products === null) {
-            console.error("displayProducts() - error: error loading products for category ID", catID);
-            let msg = document.createElement("p");
-            msg.textContent = "Error al cargar los productos de la categoría.";
-            container.appendChild(msg);
-            return;
-        }
 
         if (products.length === 0) {
             let msg = document.createElement("p");
-            msg.textContent = "No se encontraron productos para esta categoría.";
+            msg.textContent = "No se encontraron productos.";
             container.appendChild(msg);
             return;
         }
@@ -109,8 +157,20 @@ async function displayProducts() {
     }
 }
 
+// Al cargar la página, verifico si hay un parámetro de búsqueda en la URL
+// Si lo hay, muestro los productos que coinciden con la búsqueda (QueryParam "search")
+// Si no lo hay, muestro los productos de la categoría seleccionada (localStorage "catID")
 document.addEventListener("DOMContentLoaded", async () => {
-    await displayProducts();
+
+    const searchQuery = getSearchQueryParam();
+    if (searchQuery !== null) {
+        document.getElementById("search").value = searchQuery;
+        document.getElementById("category-info").style.display = "none";
+        await displaySearchProducts(searchQuery);
+        return;
+    }
+
+    await displayCategoryProducts();
 });
 
 
