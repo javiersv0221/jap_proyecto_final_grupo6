@@ -105,7 +105,13 @@ async function displayProducts(products) {
 
         products.forEach((product) => {
             const productDiv = document.createElement("div");
+            productDiv.id = product.id;
             productDiv.className = "product";
+            productDiv.onclick = () => {
+                localStorage.setItem("productID", product.id);
+                window.location.href = "product-info.html";
+            };
+            productDiv.value = product.id;
 
             const name = product.name ?? "";
             const image = product.image ?? "";
