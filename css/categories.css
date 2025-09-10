@@ -190,8 +190,8 @@ label[for="list-grid"] span {
 
 /* Imagen a la izquierda */
 .list-view .category-media {
-  width: 180px;   /* antes 120px */
-  height: 130px;  /* antes 90px */
+  width: 210px;   /* antes 120px */
+  height: 150px;  /* antes 90px */
   object-fit: cover;
   border-radius: 8px;
   flex-shrink: 0;

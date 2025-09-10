@@ -40,36 +40,66 @@ function setCatID(id) {
     window.location = "products.html"
 }
 
-function showCategoriesList(){
+function showCategoriesList() {
+  const container = document.getElementById("cat-list-container");
+  let html = "";
 
-    let htmlContentToAppend = "";
-    for(let i = 0; i < currentCategoriesArray.length; i++){
-        let category = currentCategoriesArray[i];
+  for (let i = 0; i < currentCategoriesArray.length; i++) {
+    const category = currentCategoriesArray[i];
+    const count = parseInt(category.productCount);
 
-        if (((minCount == undefined) || (minCount != undefined && parseInt(category.productCount) >= minCount)) &&
-            ((maxCount == undefined) || (maxCount != undefined && parseInt(category.productCount) <= maxCount))){
+    const passMin = (minCount == null) || (count >= minCount);
+    const passMax = (maxCount == null) || (count <= maxCount);
 
-            htmlContentToAppend += `
-            <div onclick="setCatID(${category.id})" class="list-group-item list-group-item-action cursor-active">
-                <div class="row">
-                    <div class="col-3">
-                        <img src="${category.imgSrc}" alt="${category.description}" class="img-thumbnail">
-                    </div>
-                    <div class="col">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h4 class="mb-1">${category.name}</h4>
-                            <small class="text-muted">${category.productCount} artículos</small>
-                        </div>
-                        <p class="mb-1">${category.description}</p>
-                    </div>
-                </div>
+    if (passMin && passMax) {
+      html += `
+        <li class="category-card">
+          <a class="category-link" href="products.html" onclick="setCatID(${category.id})">
+            <img class="category-media" src="${category.imgSrc}" alt="${category.name}">
+            <div class="category-body">
+              <div class="category-head">
+                <h3 class="category-title">${category.name}</h3>
+                <span class="category-count">${category.productCount} artículos</span>
+              </div>
+              <p class="category-desc">${category.description}</p>
             </div>
-            `
-        }
-
-        document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
+          </a>
+        </li>
+      `;
     }
+  }
+
+  container.innerHTML = html || `
+    <li class="category-card">
+      <div class="category-body">
+        <h3 class="category-title">Sin resultados</h3>
+        <p class="category-desc">No hay categorías que coincidan con el filtro.</p>
+      </div>
+    </li>
+  `;
 }
+
+const toggleView = document.getElementById("list-grid");
+const catList = document.getElementById("cat-list-container");
+const icon = document.getElementById("icon-list-grid");
+
+// Vista inicial (grid)
+catList.classList.add("grid-view");
+
+toggleView.addEventListener("change", () => {
+  if (toggleView.checked) {
+    catList.classList.remove("grid-view");
+    catList.classList.add("list-view");
+    icon.textContent = "view_list"; // cambia el ícono
+  } else {
+    catList.classList.remove("list-view");
+    catList.classList.add("grid-view");
+    icon.textContent = "grid_view"; // vuelve a cuadritos
+  }
+});
+
+
+
 
 function sortAndShowCategories(sortCriteria, categoriesArray){
     currentSortCriteria = sortCriteria;
