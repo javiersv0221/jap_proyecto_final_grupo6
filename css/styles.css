@@ -7,6 +7,8 @@
   --text-color: #181410;
   --enfasis-color: #C97B4B;
   --extra: #FFFFFF;
+  --card-background: #FFFFFF;
+  --card-border: #D6CCC2;
 }
 
 .dark-mode {
@@ -16,8 +18,9 @@
   --text-color: #F6EDE3;
   --enfasis-color: #C97B4B;
   --extra: #000000;
+  --card-background: #1F1B18;
+  --card-border: #3A322B;
 }
-
 *{
   box-sizing: border-box;
   font-family: "Nata Sans", sans-serif;
@@ -335,4 +338,26 @@ nav ul li a:hover {
   nav.show {
     display: flex;
   }
+}
+footer {
+  background-color: var(--primary-background);
+  color: #444;
+  padding: 20px;
+  font-size: 14px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+footer a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.team {
+  margin-top: 10px;
+  font-size: 13px;
 }

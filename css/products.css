@@ -115,10 +115,11 @@ label[for="list-grid"] span {
 #products.list-view .product {
   display: flex;
   gap: 1rem;
-  background-color: var(--second-background);
+  background-color: transparent;
   border-radius: 8px;
   padding: 10px;
   align-items: center;
+  border: 1px solid var(--card-border);
 }
 
 #products.list-view .product img {
@@ -144,11 +145,12 @@ label[for="list-grid"] span {
 }
 
 #products.grid-view .product {
-  background-color: var(--second-background);
+  background-color: transparent;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--card-border);
 }
 
 #products.grid-view .product img {
