@@ -16,6 +16,12 @@
 <body>
   <header>
     <span id="logo" class="logo">e-Mercado</span>
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Buscar...">
+      <button id="search-button" class="search-button">
+         <span class="material-icons">search</span>
+      </button>
+    </div>
     <div class="nav-container">
       <button class="navbar-toggle">
         <span class="material-icons">menu</span>
@@ -49,7 +55,7 @@
 
   <main class="container">
     <div class="category-filters">
-      <div class="category">
+      <div class="category" id="category-info">
         <h1 id="category">Category</h1>
         <p id="categoryDescription">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
       </div>
