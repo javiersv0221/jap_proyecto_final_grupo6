@@ -1,11 +1,12 @@
 async function fetchProductByID(id) {
     const jsonData = await getJSONData(PRODUCT_INFO_URL + id + EXT_TYPE);
+    console.log(jsonData);
     if (jsonData.status === "error") {
         console.error("fetchProductByID() - error: ", jsonData.data);
         return null;
     }
-    
-    return jsonData?.data ?? [];
+
+    return jsonData?.data ?? null;
 }
 
 async function fetchProductCommentsByProductID(id) {
@@ -14,7 +15,7 @@ async function fetchProductCommentsByProductID(id) {
         console.error("fetchProductCommentsByProductID() - error: ", jsonData.data);
         return null;
     }
-    
+
     return jsonData?.data ?? [];
 }
 
@@ -121,13 +122,14 @@ function renderRelatedProducts(related) {
         item.appendChild(card);
         list.appendChild(item);
 
-        // evento para cambiar producto relacionado
+        // evento para cambiar producto relacionado con url params
         card.addEventListener('click', () => {
             if (p && p.id !== undefined) {
-                localStorage.setItem('productID', p.id);
-                location.href = location.pathname;
+                window.location.href = `product-info.html?id=${p.id}`;
             }
+
         });
+
     });
 
     container.appendChild(list);
@@ -193,9 +195,9 @@ function renderProductComments(comments) {
 
 // Inicialización: obtener id y renderizar usando appendChild
 (async function initProductPage() {
-    const id = localStorage.getItem("productID");
+    const id = URLSearchParams ? (new URLSearchParams(window.location.search)).get('id') : null;
     if (!id) {
-        console.warn("No hay productID en localStorage");
+        console.warn("No hay productID");
         return;
     }
 

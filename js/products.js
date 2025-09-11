@@ -109,9 +109,8 @@ async function displayProducts(products) {
             productDiv.className = "product";
             productDiv.onclick = () => {
                 localStorage.setItem("productID", product.id);
-                window.location.href = "product-info.html";
+                window.location.href = `product-info.html?id=${product.id}`;
             };
-            productDiv.value = product.id;
 
             const name = product.name ?? "";
             const image = product.image ?? "";
