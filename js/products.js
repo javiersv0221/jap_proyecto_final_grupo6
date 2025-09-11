@@ -99,7 +99,7 @@ async function displayCategoryProducts() {
 // en el contenedor HTML
 async function displayProducts(productsArray) {
     try {
-        let products = filterProducts(products);
+        let products = filterProducts(productsArray);
         products = sortProducts(orderSelect.value, products);
         const container = document.getElementById("products");
         container.innerHTML = "";
