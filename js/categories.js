@@ -48,8 +48,8 @@ function showCategoriesList() {
     const category = currentCategoriesArray[i];
     const count = parseInt(category.productCount);
 
-    const passMin = (minCount == null) || (count >= minCount);
-    const passMax = (maxCount == null) || (count <= maxCount);
+    const passMin = (minCount == undefined) || (count >= minCount);
+    const passMax = (maxCount == undefined) || (count <= maxCount);
 
     if (passMin && passMax) {
       html += `
