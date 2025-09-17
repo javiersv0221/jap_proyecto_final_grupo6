@@ -24,7 +24,7 @@ function clearElement(el) {
     while (el && el.firstChild) el.removeChild(el.firstChild);
 }
 
-// Renderizado del producto (sin clases de diseño, solo estructura e ids relevantes)
+// Renderizado del producto
 function renderProductInfo(product) {
     const container = document.getElementById('product-info');
     if (!container || !product) return;
@@ -88,7 +88,7 @@ function renderProductInfo(product) {
     }
 }
 
-// Renderizado de productos relacionados (solo estructura, sin clases de diseño)
+// Renderizado de productos relacionados
 function renderRelatedProducts(related) {
     const container = document.getElementById('related-products');
     if (!container) return;
@@ -135,14 +135,14 @@ function renderRelatedProducts(related) {
     container.appendChild(list);
 }
 
-// Renderizado de comentarios (usa appendChild y textContent para seguridad)
+// Renderizado de comentarios
 function renderProductComments(comments) {
     const container = document.getElementById('comments');
     if (!container) return;
     clearElement(container);
 
     if (!Array.isArray(comments) || comments.length === 0) {
-        // Si no hay comentarios, no mostrar nada (o mostrar un mensaje opcional)
+        // Si no hay comentarios, mostrar un mensaje opcional
         const noCom = document.createElement('p');
         noCom.textContent = 'No hay comentarios para este producto.';
         container.appendChild(noCom);
