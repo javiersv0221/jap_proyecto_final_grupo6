@@ -44,6 +44,7 @@ function createGallery(images, productName) {
     });
 }
 
+// Renderizado del producto
 function renderProductInfo(product) {
     const container = document.getElementById('product-info');
     if (!container || !product) return;
@@ -85,7 +86,7 @@ function renderProductInfo(product) {
     createGallery(product.images, product.name);
 }
 
-// Renderizado de productos relacionados (solo estructura, sin clases de diseño)
+// Renderizado de productos relacionados
 function renderRelatedProducts(related) {
     const container = document.getElementById('related-products');
     if (!container) return;
@@ -129,14 +130,14 @@ function renderRelatedProducts(related) {
     container.appendChild(list);
 }
 
-// Renderizado de comentarios (usa appendChild y textContent para seguridad)
+// Renderizado de comentarios
 function renderProductComments(comments) {
     const container = document.getElementById('comments');
     if (!container) return;
     clearElement(container);
 
     if (!Array.isArray(comments) || comments.length === 0) {
-        // Si no hay comentarios, no mostrar nada (o mostrar un mensaje opcional)
+        // Si no hay comentarios, mostrar un mensaje opcional
         const noCom = document.createElement('p');
         noCom.textContent = 'No hay comentarios para este producto.';
         container.appendChild(noCom);
@@ -153,24 +154,36 @@ function renderProductComments(comments) {
 
     comments.forEach((c) => {
         const item = document.createElement('div');
-        item.className = 'comment-item';
-        const head = document.createElement('div');
-        head.className = 'comment-header';
-        const u = document.createElement('span');
-        u.className = 'comment-user';
-        u.textContent = c.user ?? 'usuario_';
-        const d = document.createElement('span');
-        d.className = 'comment-date';
-        d.textContent = c.dateTime ?? '';
-        head.append(u, d);
-        const s = document.createElement('p');
-        s.className = 'comment-rating';
-        const n = Number.isFinite(c.score) ? Math.max(0, Math.min(5, c.score)) : 3;
-        s.textContent = `Calificación: ${'★'.repeat(n)}${'☆'.repeat(5 - n)}`;
-        const t = document.createElement('p');
-        t.className = 'comment-text';
-        t.textContent = c.description ?? '';
-        item.append(head, s, t);
+
+        // Encabezado del comentario: usuario y fecha
+        const header = document.createElement('div');
+        const userStrong = document.createElement('strong');
+        userStrong.textContent = c.user ?? 'Anónimo';
+        header.appendChild(userStrong);
+
+        const dateSpan = document.createElement('span');
+        dateSpan.textContent = ' — ' + (c.dateTime ?? '');
+        header.appendChild(dateSpan);
+
+        // Puntuación (representada con estrellas de texto)
+        const scoreP = document.createElement('p');
+        const scoreStrong = document.createElement('strong');
+        scoreStrong.textContent = 'Calificación: ';
+        scoreP.appendChild(scoreStrong);
+
+        const stars = document.createElement('span');
+        const scoreNum = Number.isFinite(c.score) ? Math.max(0, Math.min(5, c.score)) : 0;
+        stars.textContent = '★'.repeat(scoreNum) + '☆'.repeat(5 - scoreNum);
+        scoreP.appendChild(stars);
+
+        // Descripción del comentario
+        const descP = document.createElement('p');
+        descP.textContent = c.description ?? '';
+
+        item.appendChild(header);
+        item.appendChild(scoreP);
+        item.appendChild(descP);
+
         list.appendChild(item);
     });
 
