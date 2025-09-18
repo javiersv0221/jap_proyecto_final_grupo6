@@ -76,7 +76,7 @@ function renderProductInfo(product) {
     descTitle.textContent = 'Descripción del producto';
 
     const desc = document.createElement('p');
-    desc.className = 'product-description-text';
+    desc.id = 'product-description-text';
     desc.textContent = product.description ?? '';
 
     details.append(sold, price, descTitle, desc);
