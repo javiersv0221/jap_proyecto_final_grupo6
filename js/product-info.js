@@ -24,68 +24,65 @@ function clearElement(el) {
     while (el && el.firstChild) el.removeChild(el.firstChild);
 }
 
-// Renderizado del producto (sin clases de diseño, solo estructura e ids relevantes)
+function createGallery(images, productName) {
+    const strip = document.getElementById('h-strip');
+    clearElement(strip);
+
+    const list = (Array.isArray(images) && images.length) ? images : [];
+
+    list.forEach((src, i) => {
+        const fig = document.createElement('figure');
+        fig.className = 'h-item';
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `${productName || 'Producto'} - Imagen ${i + 1}`;
+        img.onerror = function () {
+            this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="450" height="340"><rect width="450" height="340" fill="%23f5f5f5"/><text x="225" y="170" text-anchor="middle" dy=".35em" fill="%23666" font-family="Arial" font-size="14">IMAGEN NO DISPONIBLE</text></svg>';
+        };
+        fig.appendChild(img);
+        strip.appendChild(fig);
+    });
+}
+
 function renderProductInfo(product) {
     const container = document.getElementById('product-info');
     if (!container || !product) return;
     clearElement(container);
 
-    const card = document.createElement('div');
-    const cardBody = document.createElement('div');
-
-    const title = document.createElement('h2');
-    title.textContent = product.name;
-
-    const priceP = document.createElement('p');
-    const priceStrong = document.createElement('strong');
-    priceStrong.textContent = 'Precio: ';
-    priceP.appendChild(priceStrong);
-    priceP.appendChild(document.createTextNode(`${product.currency} ${product.cost}`));
-
-    const catP = document.createElement('p');
-    const catStrong = document.createElement('strong');
-    catStrong.textContent = 'Categoría: ';
-    catP.appendChild(catStrong);
-    catP.appendChild(document.createTextNode(product.category + ' '));
-
-    const soldStrong = document.createElement('strong');
-    soldStrong.textContent = 'Vendidos: ';
-    catP.appendChild(soldStrong);
-    catP.appendChild(document.createTextNode(String(product.soldCount)));
-
-    const descP = document.createElement('p');
-    descP.textContent = product.description;
-
-    cardBody.appendChild(title);
-    cardBody.appendChild(priceP);
-    cardBody.appendChild(catP);
-    cardBody.appendChild(descP);
-    card.appendChild(cardBody);
-    container.appendChild(card);
+    const title = document.getElementById('product-title');
+    title.textContent = product.name ?? 'Nombre del producto no disponible';
 
     // Galería de imágenes (estructura simple)
-    if (Array.isArray(product.images) && product.images.length) {
-        const gallery = document.createElement('div');
+    const gallery = document.createElement('div');
+    gallery.id = 'product-gallery';
+    gallery.innerHTML = `
+    <div class="h-gallery"><div id="h-strip" class="h-strip"></div></div>
+  `;
 
-        product.images.forEach(src => {
-            const item = document.createElement('div');
+    // Panel derecha
+    const details = document.createElement('div');
+    details.className = 'product-details';
 
-            const link = document.createElement('a');
-            link.href = src;
-            link.target = '_blank';
-            link.rel = 'noopener';
+    const sold = document.createElement('p');
+    sold.className = 'product-sold-count';
+    sold.textContent = `${product.soldCount ?? '000'} vendidos`;
 
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = product.name;
+    const price = document.createElement('p');
+    price.className = 'product-price';
+    price.textContent = `${product.currency} ${product.cost}`;
 
-            link.appendChild(img);
-            item.appendChild(link);
-            gallery.appendChild(item);
-        });
+    const descTitle = document.createElement('h3');
+    descTitle.className = 'product-description-title';
+    descTitle.textContent = 'Descripción del producto';
 
-        container.appendChild(gallery);
-    }
+    const desc = document.createElement('p');
+    desc.className = 'product-description-text';
+    desc.textContent = product.description ?? '';
+
+    details.append(sold, price, descTitle, desc);
+    container.append(gallery, details);
+
+    createGallery(product.images, product.name);
 }
 
 // Renderizado de productos relacionados (solo estructura, sin clases de diseño)
@@ -97,33 +94,30 @@ function renderRelatedProducts(related) {
     if (!Array.isArray(related) || related.length === 0) return;
 
     const title = document.createElement('h3');
+    title.className = 'related-products-title';
     title.textContent = 'Productos relacionados';
     container.appendChild(title);
 
     const list = document.createElement('div');
-
+    list.className = 'related-products-container';
     related.forEach((p) => {
         const item = document.createElement('div');
-
-        const card = document.createElement('div');
-
+        item.className = 'related-product-item';
         const img = document.createElement('img');
+        img.className = 'related-product-image';
         img.src = p.image;
         img.alt = p.name;
-
-        const cardBody = document.createElement('div');
-
-        const h5 = document.createElement('h5');
-        h5.textContent = p.name;
-
-        cardBody.appendChild(h5);
-        card.appendChild(img);
-        card.appendChild(cardBody);
-        item.appendChild(card);
+        const info = document.createElement('div');
+        info.className = 'related-product-info';
+        const name = document.createElement('h5');
+        name.className = 'related-product-name';
+        name.textContent = p.name;
+        info.appendChild(name);
+        item.append(img, info);
         list.appendChild(item);
 
         // evento para cambiar producto relacionado con url params
-        card.addEventListener('click', () => {
+        item.addEventListener('click', () => {
             if (p && p.id !== undefined) {
                 window.location.href = `product-info.html?id=${p.id}`;
             }
@@ -150,43 +144,33 @@ function renderProductComments(comments) {
     }
 
     const title = document.createElement('h3');
+    title.className = 'comments-title';
     title.textContent = 'Comentarios';
     container.appendChild(title);
 
     const list = document.createElement('div');
+    list.className = 'comments-container';
 
     comments.forEach((c) => {
         const item = document.createElement('div');
-
-        // Encabezado del comentario: usuario y fecha
-        const header = document.createElement('div');
-        const userStrong = document.createElement('strong');
-        userStrong.textContent = c.user ?? 'Anónimo';
-        header.appendChild(userStrong);
-
-        const dateSpan = document.createElement('span');
-        dateSpan.textContent = ' — ' + (c.dateTime ?? '');
-        header.appendChild(dateSpan);
-
-        // Puntuación (representada con estrellas de texto)
-        const scoreP = document.createElement('p');
-        const scoreStrong = document.createElement('strong');
-        scoreStrong.textContent = 'Calificación: ';
-        scoreP.appendChild(scoreStrong);
-
-        const stars = document.createElement('span');
-        const scoreNum = Number.isFinite(c.score) ? Math.max(0, Math.min(5, c.score)) : 0;
-        stars.textContent = '★'.repeat(scoreNum) + '☆'.repeat(5 - scoreNum);
-        scoreP.appendChild(stars);
-
-        // Descripción del comentario
-        const descP = document.createElement('p');
-        descP.textContent = c.description ?? '';
-
-        item.appendChild(header);
-        item.appendChild(scoreP);
-        item.appendChild(descP);
-
+        item.className = 'comment-item';
+        const head = document.createElement('div');
+        head.className = 'comment-header';
+        const u = document.createElement('span');
+        u.className = 'comment-user';
+        u.textContent = c.user ?? 'usuario_';
+        const d = document.createElement('span');
+        d.className = 'comment-date';
+        d.textContent = c.dateTime ?? '';
+        head.append(u, d);
+        const s = document.createElement('p');
+        s.className = 'comment-rating';
+        const n = Number.isFinite(c.score) ? Math.max(0, Math.min(5, c.score)) : 3;
+        s.textContent = `Calificación: ${'★'.repeat(n)}${'☆'.repeat(5 - n)}`;
+        const t = document.createElement('p');
+        t.className = 'comment-text';
+        t.textContent = c.description ?? '';
+        item.append(head, s, t);
         list.appendChild(item);
     });
 
