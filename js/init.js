@@ -124,10 +124,11 @@ function getSessionUsername() {
     if (sessionData) {
         try {
             const session = JSON.parse(sessionData);
-            return session.username ?? "";
+            return session.username ?? "-";
         } catch (e) {
             console.error("Error parsing session data:", e);
-            return "";
+            return null;
         }
     }
+    return null;
 }
