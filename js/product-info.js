@@ -16,7 +16,20 @@ async function fetchProductCommentsByProductID(id) {
         return null;
     }
 
-    return jsonData?.data ?? [];
+    const apiComments = jsonData?.data ?? [];
+    const localComments = JSON.parse(localStorage.getItem('comments')) || {};
+    const prodComments = Array.isArray(localComments[id]) ? localComments[id] : [];
+    return apiComments.concat(prodComments);
+}
+
+async function addProductComment(id, comment) {
+    const localComments = JSON.parse(localStorage.getItem('comments')) || {};
+    const prodComments = Array.isArray(localComments[id]) ? localComments[id] : [];
+    comment.dateTime = new Date().toISOString();
+    comment.user = getSessionUsername();
+    prodComments.push(comment);
+    localComments[id] = prodComments;
+    localStorage.setItem('comments', JSON.stringify(localComments));
 }
 
 // Funciones utilitarias
@@ -132,6 +145,9 @@ function renderRelatedProducts(related) {
 
 // Renderizado de comentarios
 function renderProductComments(comments) {
+
+    comments = comments.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+
     const container = document.getElementById('comments');
     if (!container) return;
     clearElement(container);

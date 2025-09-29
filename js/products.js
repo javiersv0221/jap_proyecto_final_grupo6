@@ -56,7 +56,7 @@ async function displaySearchProducts(searchTerm) {
             );
         });
     });
-    displayProducts(searchProducts);
+    await displayProducts(searchProducts);
 }
 
 // Función que muestra los productos de una categoría específica (catID -> localStorage "catID")
@@ -92,7 +92,7 @@ async function displayCategoryProducts() {
         return;
     }
 
-    displayProducts(products);
+    await displayProducts(products);
 }
 
 // Función que muestra los productos seleccionados (productos por categoría o por búsqueda)
