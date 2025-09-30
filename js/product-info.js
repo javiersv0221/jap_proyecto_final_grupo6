@@ -141,7 +141,7 @@ function renderRelatedProducts(related) {
     container.appendChild(list);
 }
 
-// Manejar envío del formulario de comentarios ---
+// Manejar envío del formulario de comentarios
 function setupCommentForm(productId) {
     const form = document.getElementById('comment-form');
     if (!form) return;
@@ -150,19 +150,19 @@ function setupCommentForm(productId) {
     let selectedScore = 0;
 
    stars.forEach(star => {
-    // Hover: iluminar hasta la estrella actual
+   
     star.addEventListener('mouseenter', () => {
         stars.forEach(s => {
             s.classList.toggle('hovered', parseInt(s.dataset.value) <= parseInt(star.dataset.value));
         });
     });
 
-    // Cuando salís del área de estrellas, limpiar hover
+    
     star.addEventListener('mouseleave', () => {
         stars.forEach(s => s.classList.remove('hovered'));
     });
 
-    // Click: fijar selección
+  
     star.addEventListener('click', () => {
         selectedScore = parseInt(star.dataset.value);
         stars.forEach(s => {
@@ -180,34 +180,33 @@ function setupCommentForm(productId) {
             return;
         }
 
-        // Crear objeto comentario
+       
         const newComment = {
             description: text,
             score: selectedScore
         };
 
-        // Guardar en localStorage
+        
         await addProductComment(productId, newComment);
 
-        // Limpiar formulario
+       
         form.reset();
         stars.forEach(s => s.classList.remove('selected'));
         selectedScore = 0;
 
-        // Volver a renderizar comentarios
         const comments = await fetchProductCommentsByProductID(productId);
         renderProductComments(comments ?? []);
     });
 }
 
-// Renderizado de comentarios (ajustado para no borrar el form)
+// Renderizado de comentarios 
 function renderProductComments(comments) {
     const listContainer = document.getElementById('comment');
     if (!listContainer) return;
 
     clearElement(listContainer);
 
-    // asegurar que tenga la clase de estilo
+   
     listContainer.classList.add('comments-container');
 
     if (!Array.isArray(comments) || comments.length === 0) {
@@ -269,10 +268,10 @@ function renderProductComments(comments) {
     renderProductInfo(product);
     renderRelatedProducts(product.relatedProducts ?? []);
 
-    // Obtener y renderizar comentarios
+   
     const comments = await fetchProductCommentsByProductID(id);
     renderProductComments(comments ?? []);
 
-    // 👉 Activar formulario
+   
     setupCommentForm(id);
 })();
