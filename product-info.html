@@ -52,16 +52,30 @@
         </nav>
     </div>
 </header>
+
 <main class="container">
     <h1 id="product-title">Producto no encontrado</h1>
-    <section id="product-info">
-    </section>
+    <section id="product-info"></section>
 
     <section id="comments">
+        <h2>Dejá tu comentario</h2>
+<form id="comment-form">
+    <div class="rating">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+    <textarea id="comment-text" placeholder="Escribe tu comentario..." required></textarea>
+    <button type="submit">Enviar</button>
+</form>
+
+        <!-- Lista donde se muestran los comentarios -->
+        <div id="comment"></div>
     </section>
 
-    <section id="related-products">
-    </section>
+    <section id="related-products"></section>
 </main>
 
 <footer>
@@ -84,6 +98,7 @@
         </p>
     </div>
 </footer>
+
 <div id="spinner-wrapper">
     <div class="lds-ring">
         <div></div>
@@ -92,6 +107,7 @@
         <div></div>
     </div>
 </div>
+
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/init.js"></script>
 <script src="js/product-info.js"></script>
