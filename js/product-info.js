@@ -24,6 +24,23 @@ async function fetchProductCommentsByProductID(id) {
   return apiComments.concat(prodComments);
 }
 
+function formatDate(dateString) {
+    if (!dateString) return '';
+
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) return dateString;
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+}
+
 async function addProductComment(id, comment) {
   const localComments = JSON.parse(localStorage.getItem("comments")) || {};
   const prodComments = Array.isArray(localComments[id])
@@ -231,7 +248,7 @@ function renderProductComments(comments) {
       header.appendChild(userStrong);
 
       const dateSpan = document.createElement("span");
-      dateSpan.textContent = " — " + (c.dateTime ?? "");
+      dateSpan.textContent = " — " + formatDate(c.dateTime);
       header.appendChild(dateSpan);
 
       const scoreP = document.createElement("p");
