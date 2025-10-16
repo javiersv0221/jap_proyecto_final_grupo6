@@ -267,6 +267,6 @@ input:focus {
 }
 
 
-.hidden {
+.avatar-modal.hidden {
   display: none !important;
 }

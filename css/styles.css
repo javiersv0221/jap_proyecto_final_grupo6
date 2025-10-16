@@ -460,7 +460,7 @@ footer a:hover {
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   list-style: none;
-  padding: 8px;
+  padding: 6px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -471,41 +471,40 @@ footer a:hover {
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-
 .hidden {
   opacity: 0;
   transform: translateY(-8px);
   pointer-events: none;
 }
 
-/* OPCIONES DEL MENÚ  */
 .dropdown li {
+  border-radius: 6px;
+  overflow: hidden; 
+}
+
+.dropdown li a,
+.dropdown li button {
+  all: unset;
+  display: block;
+  width: 100%;
   padding: 10px 14px;
   border-radius: 6px;
   background-color: var(--primary-background);
-  text-align: left; 
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  font-weight: 500;
-  color: var(--text-color); 
-}
-
-.dropdown li:hover {
-  background-color: var(--enfasis-color);
-  transform: translateY(-1px);
-}
-
-
-.dropdown li:hover,
-.dropdown li a:hover {
   color: var(--text-color);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown li a:hover,
+.dropdown li button:hover {
+  background-color: var(--enfasis-color);
+  color: var(--extra);
 }
 
 
-.dropdown li a {
-  display: block;
-  width: 100%;
-  height: 100%;
-  color: inherit;
-  text-decoration: none;
+.dropdown li a:active,
+.dropdown li button:active {
+  transform: scale(0.98);
 }

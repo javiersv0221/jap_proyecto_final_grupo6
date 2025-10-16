@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnResetAvatar = document.getElementById("btnAvatarReset");
 
   const currentAvatarImg = document.getElementById("currentAvatarImg");
-  const avatarGallery = document.getElementById("avatarGallery");
 
   const avatarModal = document.getElementById("avatarModal");
   const closeAvatarModal = document.getElementById("closeAvatarModal");
@@ -24,12 +23,13 @@ document.addEventListener("DOMContentLoaded", () => {
   inputEmail.value = session.email || "";
   inputPhone.value = session.phone || "";
 
-  
   const defaultAvatar = "img/avatars/avatar0.png";
   currentAvatarImg.src = session.avatar || defaultAvatar;
 
-  // Guardar cambios del perfil
-  btnSave.addEventListener("click", (e) => {
+  // Guardar cambios en el perfil
+  const form = document.getElementById("profileData");
+
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const usernameValue = inputUsername.value.trim();
@@ -47,24 +47,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.setItem("session", JSON.stringify(session));
 
-    const userNameDisplay = document.querySelector("#user-menu p");
+    const userNameDisplay = document.getElementById("userNameDisplay");
     if (userNameDisplay) userNameDisplay.textContent = session.username;
 
     alert("Perfil actualizado correctamente.");
   });
 
-  
   inputPhone.addEventListener("input", () => {
     inputPhone.value = inputPhone.value.replace(/\D/g, "");
   });
 
-  
   btnChangeAvatar.addEventListener("click", () => {
     avatarModal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
   });
 
-  
   const closeModal = () => {
     avatarModal.classList.add("hidden");
     document.body.style.overflow = "auto";
@@ -98,5 +95,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnResetAvatar.addEventListener("click", () => {
     currentAvatarImg.src = defaultAvatar;
+    session.avatar = defaultAvatar;
+    localStorage.setItem("session", JSON.stringify(session));
+
+    const userAvatarMini = document.getElementById("userAvatarMini");
+    if (userAvatarMini) userAvatarMini.src = defaultAvatar;
+
+    alert("Avatar restablecido al predeterminado.");
   });
 });
