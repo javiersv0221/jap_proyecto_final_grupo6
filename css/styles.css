@@ -2,30 +2,41 @@
 
 :root {
   /* Modo Claro */
-  --primary-background: #F4E9E4;
-  --second-background: #E9B872;
-  --text-color: #181410;
-  --enfasis-color: #C97B4B;
-  --extra: #FFFFFF;
-  --card-background: #FFFFFF;
+  --primary-background: #f3f3f3;
+  --second-background: #d38d4b;
+  --text-color: #101010;
+  --enfasis-color: #db8f48;
   --card-border: #D6CCC2;
 }
 
 .dark-mode {
   /* Modo Oscuro */
-  --primary-background: #292420;
-  --second-background: #522F19;
-  --text-color: #F6EDE3;
-  --enfasis-color: #C97B4B;
-  --extra: #000000;
-  --card-background: #1F1B18;
+  --primary-background: #1e1e1e;
+  --second-background: #c47429;
+  --text-color: #f0f0f0;
+  --enfasis-color: #db8f48;
   --card-border: #3A322B;
 }
+
 *{
   box-sizing: border-box;
   font-family: "Nata Sans", sans-serif;
   transition: background 0.3s ease, color 0.3s ease;
   color: var(--text-color);
+}
+
+::-webkit-scrollbar {
+  width: 4px;               /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  width: 4px;
+  background: transparent;        /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--second-background);    /* color of the scroll thumb */
+  border-radius: 200px;       /* roundness of the scroll thumb */
 }
 
 .jumbotron,
@@ -223,6 +234,10 @@ a.custom-card:hover {
 /* ==========================
    HEADER
 ========================== */
+.div-header {
+  background-color: var(--second-background);
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -236,9 +251,8 @@ header {
 }
 
 .logo {
-  font-size: 2rem;
-  font-weight: bold;
   color: var(--text-color);
+  fill: var(--text-color);
 }
 
 .nav-container {
@@ -268,7 +282,11 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: var(--enfasis-color);
+  color: var(--primary-background);
+}
+
+.header-span{
+  color: var(--text-color) !important;
 }
 
 /* ----- Botones Header ----- */
@@ -289,10 +307,9 @@ nav ul li a:hover {
   margin: auto;
 }
 
-.toggle-theme:hover,
-.userAccount:hover {
-  background: var(--enfasis-color);
-  color: var(--extra);
+.toggle-theme:hover .header-span,
+.userAccount:hover .header-span, .userAccount:hover p{
+  color: var(--primary-background) !important;
 }
 
 /* ----- Botón Hamburguesa ----- */
@@ -309,8 +326,12 @@ nav ul li a:hover {
   color: var(--text-color);
 }
 
+.navbar-toggle:hover span {
+  color: var(--primary-background) !important;
+}
+
 /* ----- Header Responsive ----- */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .navbar-toggle {
     display: block;
   }
@@ -339,9 +360,11 @@ nav ul li a:hover {
     display: flex;
   }
 }
+
 footer {
   background-color: var(--primary-background);
   color: #444;
+  margin-top: 30px;
   padding: 20px;
   font-size: 14px;
   text-align: center;
@@ -363,14 +386,12 @@ footer a:hover {
 }
 
 
-
-
-
 /* ----- Barra de Búsqueda ----- */
 .search-container {
   display: flex;
   align-items: center;
-  width: 320px;
+  width: 100%;
+  margin: 0 25px;
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
@@ -406,6 +427,6 @@ footer a:hover {
 
 
 .search-container .material-icons {
-  font-size: 20px;
+  font-size: 25px;
   color: black;
 }
