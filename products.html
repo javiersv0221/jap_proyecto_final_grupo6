@@ -42,12 +42,22 @@
               <span class="material-icons">dark_mode</span>
             </button>
           </li>
-          <li id="user-menu">
-            <button id="userAccount" class="userAccount">
-              <span class="material-icons">account_circle</span>
-            </button>
-            <p></p>
-          </li>
+           <li id="user-menu" class="user-menu">
+              <button id="userMenuBtn" class="user-menu-btn">
+                <img
+                  id="userAvatarMini"
+                  src="img/avatars/avatar0.png"
+                  alt="Avatar usuario"
+                />
+                <span id="userNameDisplay">Usuario</span>
+                <span class="material-icons">expand_more</span>
+              </button>
+
+              <ul id="userDropdown" class="dropdown hidden">
+                <li><a href="my-profile.html">Mi perfil</a></li>
+                <li id="logoutBtn">Cerrar sesión</li>
+              </ul>
+            </li>
         </ul>
       </nav>
     </div>

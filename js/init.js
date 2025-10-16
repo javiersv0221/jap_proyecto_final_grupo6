@@ -104,20 +104,41 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "index.html";
     }
 });
-// MUESTRO NOMBRE DE USUARIO EN EL ICONO DE USUARIO
 document.addEventListener("DOMContentLoaded", () => {
-    const username = getSessionUsername();
-    if (username) {
-        const userAccountBtn = document.getElementById("userAccount");
+  const sessionData = JSON.parse(localStorage.getItem("session")) || {};
+  const userMenuBtn = document.getElementById("userMenuBtn");
+  const dropdown = document.getElementById("userDropdown");
+  const userAvatarMini = document.getElementById("userAvatarMini");
+  const userNameDisplay = document.getElementById("userNameDisplay");
+  const logoutBtn = document.getElementById("logoutBtn");
 
-        if (userAccountBtn) {
-            userAccountBtn.innerHTML = `
-          <span class="material-icons">account_circle</span>
-          <p>${username}</p>
-        `;
-        }
+ 
+  if (!sessionData.username) return;
+
+  
+  userNameDisplay.textContent = sessionData.username;
+  if (sessionData.avatar) userAvatarMini.src = sessionData.avatar;
+
+
+  userMenuBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle("hidden");
+  });
+
+  // Cerrar sesión
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("session");
+    window.location.href = "login.html";
+  });
+
+  // Cerrar menú si se hace clic fuera
+  document.addEventListener("click", (e) => {
+    if (!userMenuBtn.contains(e.target)) {
+      dropdown.classList.add("hidden");
     }
+  });
 });
+
 
 function getSessionUsername() {
     const sessionData = localStorage.getItem("session");
