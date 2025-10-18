@@ -107,7 +107,8 @@ if (navBtn) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    if (!localStorage.getItem("users") || JSON.parse(localStorage.getItem("users")).length === 0) {
+    const usersStr = localStorage.getItem("users");
+    if (!usersStr || JSON.parse(usersStr).length === 0) {
         localStorage.setItem("users", JSON.stringify([defaultUser]));
     }
 
@@ -125,13 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const userAvatarMini = document.getElementById("userAvatarMini");
     const userNameDisplay = document.getElementById("userNameDisplay");
     const logoutBtn = document.getElementById("logoutBtn");
-
-    // if (userAccountBtn) {
-    //     userAccountBtn.innerHTML = `
-    //       <span class="material-icons header-span">account_circle</span>
-    //       <p>${username}</p>
-    //     `;
-    // }
 
     if (!sessionData.id) return;
 

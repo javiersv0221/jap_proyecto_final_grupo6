@@ -299,7 +299,6 @@ function filterProducts(array) {
     let max = parseInt(maxInput.value);
     if (isNaN(min)) min = undefined;
     if (isNaN(max)) max = undefined;
-    console.log(min, max);
     return array.filter((product) => {
         const cost = product.cost;
         if ((min === undefined || cost >= min) && (max === undefined || cost <= max)) {

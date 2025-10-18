@@ -1,6 +1,5 @@
 async function fetchProductByID(id) {
     const jsonData = await getJSONData(PRODUCT_INFO_URL + id + EXT_TYPE);
-    console.log(jsonData);
     if (jsonData.status === "error") {
         console.error("fetchProductByID() - error: ", jsonData.data);
         return null;

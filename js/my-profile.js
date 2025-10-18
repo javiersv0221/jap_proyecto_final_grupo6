@@ -78,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
     avatarOptions.forEach((option) => {
         option.addEventListener("click", () => {
             const selectedAvatar = option.dataset.avatar;
-            console.log(`Selected avatar: '${selectedAvatar}'`);
             currentAvatarImg.src = selectedAvatar;
             userData.avatar = selectedAvatar;
             updateUserData(userData.id, userData);
