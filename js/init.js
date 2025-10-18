@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (userAccountBtn) {
             userAccountBtn.innerHTML = `
-          <span class="material-icons">account_circle</span>
+          <span class="material-icons header-span">account_circle</span>
           <p>${username}</p>
         `;
         }
