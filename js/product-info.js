@@ -52,7 +52,7 @@ async function addProductComment(id, comment) {
         ? localComments[id]
         : [];
     comment.dateTime = new Date().toISOString();
-    comment.user = getSessionUsername();
+    comment.user = getCurrentUserData().username;
     prodComments.push(comment);
     localComments[id] = prodComments;
     localStorage.setItem("comments", JSON.stringify(localComments));
