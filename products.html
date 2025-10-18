@@ -2,133 +2,148 @@
 <html lang="es">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>eMercado - Todo lo que busques está aquí</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>eMercado - Todo lo que busques está aquí</title>
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/styles.css" rel="stylesheet">
-  <link rel="stylesheet" href="./css/products.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/products.css">
 </head>
 
 <body>
-  <div class="div-header">
+<div class="div-header">
     <header>
-      <div class="logo">
-        <svg width="70" height="70" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
-        <text x="0" y="60" font-family="Inter, sans-serif" font-weight="600" font-size="100" font-style="italic" >e</text>
-      </svg>
-      </div>
-      <!-- <img class="logo" id="logo" src="assets/logo-e.svg" alt="logo"> -->
-      <div class="search-container">
-        <input type="text" id="search" placeholder="Buscar...">
-        <button id="search-button" class="search-button">
-          <span class="material-icons">search</span>
-        </button>
-      </div>
-      <div class="nav-container">
-        <button class="navbar-toggle">
-          <span class="material-icons header-span">menu</span>
-        </button>
-        <nav>
-          <ul>
-            <li>
-              <a href="index.html">Inicio</a>
-            </li>
-            <li>
-              <a href="categories.html">Categorías</a>
-            </li>
-            <li>
-              <a href="sell.html">Vender</a>
-            </li>
-            <li class="nav-item">
-              <button id="toggle-theme" class="toggle-theme">
-                <span class="material-icons header-span">dark_mode</span>
-              </button>
-            </li>
-            <li id="user-menu">
-              <button id="userAccount" class="userAccount">
-                <span class="material-icons header-span">account_circle</span>
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-  </div>
+        <div class="logo">
+            <svg width="70" height="70" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="60" font-family="Inter, sans-serif" font-weight="600" font-size="100"
+                      font-style="italic">e
+                </text>
+            </svg>
+        </div>
+        <!-- <img class="logo" id="logo" src="assets/logo-e.svg" alt="logo"> -->
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Buscar...">
+            <button id="search-button" class="search-button">
+                <span class="material-icons">search</span>
+            </button>
+        </div>
+        <div class="nav-container">
+            <button class="navbar-toggle">
+                <span class="material-icons header-span">menu</span>
+            </button>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="index.html">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="categories.html">Categorías</a>
+                    </li>
+                    <li>
+                        <a href="sell.html">Vender</a>
+                    </li>
+                    <li class="nav-item">
+                        <button id="toggle-theme" class="toggle-theme">
+                            <span class="material-icons header-span">dark_mode</span>
+                        </button>
+                    </li>
+                    <li id="user-menu" class="user-menu">
+                        <button id="userMenuBtn" class="user-menu-btn">
+                            <img
+                                    id="userAvatarMini"
+                                    src="img/avatars/avatar0.png"
+                                    alt="Avatar usuario"
+                            />
+                            <span id="userNameDisplay">Usuario</span>
+                            <span class="material-icons header-span">expand_more</span>
+                        </button>
 
-  <main class="container">
+                        <ul id="userDropdown" class="dropdown hidden">
+                            <li><a href="my-profile.html">Mi perfil</a></li>
+                            <li>
+                                <button id="logoutBtn" type="button">Cerrar sesión</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+</div>
+
+<main class="container">
     <div class="category-filters">
-      <div class="category" id="category-info">
-        <h1 id="category">Category</h1>
-        <p id="categoryDescription">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-      </div>
-      <div class="filters">
-        <div class="price">
-          <label for="minPrice">
-            <input type="number" name="minPrice" id="minPrice" placeholder="$ mínimo">
-          </label>
-          <label for="maxPrice">
-            <input type="number" name="maxPrice" id="maxPrice" placeholder="$ máximo">
-          </label>
+        <div class="category" id="category-info">
+            <h1 id="category">Category</h1>
+            <p id="categoryDescription">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         </div>
-        <div>
-          <label for="list-grid">
-            <input type="checkbox" name="list-grid" id="list-grid">
-            <span class="material-icons" id="icon-list-grid">grid_view</span>
-          </label>
-          <label for="order">
-            <select name="order" id="order">
-              <option value="relevancia">Relevancia</option>
-              <option value="az">A-Z</option>
-              <option value="za">Z-A</option>
-              <option value="precio-menor">Precio menor</option>
-              <option value="precio-mayor">Precio mayor</option>
-              <option value="mas-vendidos">Más vendidos</option>
-              <option value="menos-vendidos">Menos vendidos</option>
-            </select>
-          </label>
+        <div class="filters">
+            <div class="price">
+                <label for="minPrice">
+                    <input type="number" name="minPrice" id="minPrice" placeholder="$ mínimo">
+                </label>
+                <label for="maxPrice">
+                    <input type="number" name="maxPrice" id="maxPrice" placeholder="$ máximo">
+                </label>
+            </div>
+            <div>
+                <label for="list-grid">
+                    <input type="checkbox" name="list-grid" id="list-grid">
+                    <span class="material-icons" id="icon-list-grid">grid_view</span>
+                </label>
+                <label for="order">
+                    <select name="order" id="order">
+                        <option value="relevancia">Relevancia</option>
+                        <option value="az">A-Z</option>
+                        <option value="za">Z-A</option>
+                        <option value="precio-menor">Precio menor</option>
+                        <option value="precio-mayor">Precio mayor</option>
+                        <option value="mas-vendidos">Más vendidos</option>
+                        <option value="menos-vendidos">Menos vendidos</option>
+                    </select>
+                </label>
+            </div>
         </div>
-      </div>
     </div>
     <section class="grid-view" id="products"></section>
-  </main>
+</main>
 
-   <footer>
-  <div class="footer-container">
-    <p>
-      2025 - Este sitio forma parte de 
-      <a href="https://jovenesaprogramar.edu.uy/" target="_blank">
-        Jóvenes a Programar
-      </a>
-    </p>
-    <p>
-      Proyecto con fines educativos. No realiza compras ni ventas reales y no tiene valor comercial.
-    </p>
-    <p class="team">
-      Desarrollado por: 
-      <a href="https://github.com/javiersv0221" target="_blank">Javier Salvatierra</a> | 
-      <a href="https://jonathangomez.dev" target="_blank">Jonathan Gomez</a> | 
-      <a href="https://github.com/VeronicaAlvez" target="_blank">Verónica Alvez</a> | 
-      <a href="https://github.com/leeachevalier" target="_blank">Leandro Chevalier</a>
-    </p>
-  </div>
+<footer>
+    <div class="footer-container">
+        <p>
+            2025 - Este sitio forma parte de
+            <a href="https://jovenesaprogramar.edu.uy/" target="_blank">
+                Jóvenes a Programar
+            </a>
+        </p>
+        <p>
+            Proyecto con fines educativos. No realiza compras ni ventas reales y no tiene valor comercial.
+        </p>
+        <p class="team">
+            Desarrollado por:
+            <a href="https://github.com/javiersv0221" target="_blank">Javier Salvatierra</a> |
+            <a href="https://jonathangomez.dev" target="_blank">Jonathan Gomez</a> |
+            <a href="https://github.com/VeronicaAlvez" target="_blank">Verónica Alvez</a> |
+            <a href="https://github.com/leeachevalier" target="_blank">Leandro Chevalier</a>
+        </p>
+    </div>
 </footer>
 
-  <div id="spinner-wrapper">
+<div id="spinner-wrapper">
     <div class="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
-  </div>
+</div>
 
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="js/init.js"></script>
-  <script src="js/products.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/init.js"></script>
+<script src="js/products.js"></script>
 </body>
 
 </html>
