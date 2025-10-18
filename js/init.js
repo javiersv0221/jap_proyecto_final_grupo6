@@ -112,10 +112,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const userNameDisplay = document.getElementById("userNameDisplay");
   const logoutBtn = document.getElementById("logoutBtn");
 
- 
+        if (userAccountBtn) {
+            userAccountBtn.innerHTML = `
+          <span class="material-icons header-span">account_circle</span>
+          <p>${username}</p>
+        `;
+        }
+
   if (!sessionData.username) return;
 
-  
+
   userNameDisplay.textContent = sessionData.username;
   if (sessionData.avatar) userAvatarMini.src = sessionData.avatar;
 
