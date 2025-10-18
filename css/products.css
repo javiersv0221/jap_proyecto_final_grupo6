@@ -117,7 +117,7 @@ label[for="list-grid"] span {
   gap: 1rem;
   background-color: transparent;
   border-radius: 8px;
-  padding: 10px;
+
   align-items: center;
   border: 1px solid var(--card-border);
 }

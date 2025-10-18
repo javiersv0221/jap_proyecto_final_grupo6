@@ -1,0 +1,272 @@
+body{
+    background-color: var(--primary-background);
+}
+
+.profile-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: var(--card-background);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  color: var(--text-color);
+}
+
+h2 {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.profile-card {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* AVATAR */
+.profile-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-avatar img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 3px solid var(--enfasis-color);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.profile-avatar img:hover {
+  transform: scale(1.05);
+}
+
+.avatar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.avatar-actions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--enfasis-color);
+  color: var(--extra);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.avatar-actions button:hover {
+  background-color: var(--second-background);
+  transform: scale(1.05);
+}
+
+/* FORMULARIO */
+.profile-info {
+  flex: 1;
+  min-width: 280px;
+}
+
+fieldset {
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 20px;
+  background-color: var(--card-background);
+}
+
+legend {
+  font-weight: 600;
+  font-size: 1.1em;
+  color: var(--text-color);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--card-border);
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+input:focus {
+  border-color: var(--enfasis-color);
+  outline: none;
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  background-color: var(--enfasis-color);
+  color: var(--extra);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form-actions button:hover {
+  background-color: var(--second-background);
+}
+
+/* MODAL DE AVATARES  */
+
+.avatar-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+
+.avatar-modal:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.avatar-modal-content {
+  background: var(--card-background);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  position: relative;
+  animation: slideUp 0.25s ease-out;
+}
+
+
+.close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+.close-modal-btn:hover {
+  color: var(--enfasis-color);
+}
+
+
+.avatar-modal-content h3 {
+  text-align: center;
+  color: var(--text-color);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+
+.avatar-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+  width: 100%;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+
+.avatar-gallery::-webkit-scrollbar {
+  width: 6px;
+}
+.avatar-gallery::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 6px;
+}
+
+/* Avatar */
+.avatar-option {
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.avatar-option img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid transparent;
+}
+.avatar-option:hover img {
+  border-color: var(--enfasis-color);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px var(--enfasis-color);
+}
+
+/* Avatar seleccionado */
+.avatar-option.selected img {
+  border-color: var(--enfasis-color);
+  box-shadow: 0 0 12px var(--enfasis-color);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .avatar-modal-content {
+    width: 95%;
+    padding: 1.5rem 1rem;
+    max-height: 85vh;
+  }
+  .avatar-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .avatar-option img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* Animación */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+.avatar-modal.hidden {
+  display: none !important;
+}
