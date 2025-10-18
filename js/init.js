@@ -9,6 +9,16 @@ const EXT_TYPE = ".json";
 
 const searchInput = document.getElementById("search");
 const searchButton = document.getElementById("search-button");
+const defaultUser = {
+    id: 1,
+    username: "vero",
+    password: "vero123",
+    name: "Vero",
+    lastName: "Alvez",
+    email: "vero@gmail.com",
+    phone: "092345678",
+    avatar: "img/avatars/avatar0.png",
+}
 
 if (searchButton) {
     function handleSearch() {
@@ -97,6 +107,11 @@ if (navBtn) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    const usersStr = localStorage.getItem("users");
+    if (!usersStr || JSON.parse(usersStr).length === 0) {
+        localStorage.setItem("users", JSON.stringify([defaultUser]));
+    }
+
     const isLoggedIn = localStorage.getItem("session") !== null;
     if (!window.location.pathname.includes("login.html") && !isLoggedIn) {
         window.location.href = "login.html";
@@ -105,57 +120,72 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 document.addEventListener("DOMContentLoaded", () => {
-  const sessionData = JSON.parse(localStorage.getItem("session")) || {};
-  const userMenuBtn = document.getElementById("userMenuBtn");
-  const dropdown = document.getElementById("userDropdown");
-  const userAvatarMini = document.getElementById("userAvatarMini");
-  const userNameDisplay = document.getElementById("userNameDisplay");
-  const logoutBtn = document.getElementById("logoutBtn");
+    const sessionData = JSON.parse(localStorage.getItem("session")) || {};
+    const userMenuBtn = document.getElementById("userMenuBtn");
+    const dropdown = document.getElementById("userDropdown");
+    const userAvatarMini = document.getElementById("userAvatarMini");
+    const userNameDisplay = document.getElementById("userNameDisplay");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-        if (userAccountBtn) {
-            userAccountBtn.innerHTML = `
-          <span class="material-icons header-span">account_circle</span>
-          <p>${username}</p>
-        `;
+    if (!sessionData.id) return;
+
+    const userData = getCurrentUserData(sessionData.id);
+
+
+    userNameDisplay.textContent = userData.username;
+    if (userData.avatar) userAvatarMini.src = userData.avatar;
+
+
+    userMenuBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle("hidden");
+    });
+
+    // Cerrar sesión
+    logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("session");
+        window.location.href = "login.html";
+    });
+
+    // Cerrar menú si se hace clic fuera
+    document.addEventListener("click", (e) => {
+        if (!userMenuBtn.contains(e.target)) {
+            dropdown.classList.add("hidden");
         }
-
-  if (!sessionData.username) return;
-
-
-  userNameDisplay.textContent = sessionData.username;
-  if (sessionData.avatar) userAvatarMini.src = sessionData.avatar;
-
-
-  userMenuBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    dropdown.classList.toggle("hidden");
-  });
-
-  // Cerrar sesión
-  logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("session");
-    window.location.href = "login.html";
-  });
-
-  // Cerrar menú si se hace clic fuera
-  document.addEventListener("click", (e) => {
-    if (!userMenuBtn.contains(e.target)) {
-      dropdown.classList.add("hidden");
-    }
-  });
+    });
 });
 
-
-function getSessionUsername() {
+function getSessionId() {
     const sessionData = localStorage.getItem("session");
+
     if (sessionData) {
         try {
             const session = JSON.parse(sessionData);
-            return session.username ?? "-";
+            return session.id;
         } catch (e) {
             console.error("Error parsing session data:", e);
             return null;
         }
     }
-    return null;
+}
+
+function getUserData(idUser) {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(u => u.id === idUser);
+    return user || null;
+}
+
+function getCurrentUserData() {
+    const id = getSessionId();
+    if (id === null) return null;
+    return getUserData(id);
+}
+
+function updateUserData(idUser, newData) {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const userIndex = users.findIndex(u => u.id === idUser);
+    if (userIndex !== -1) {
+        users[userIndex] = {...users[userIndex], ...newData};
+        localStorage.setItem("users", JSON.stringify(users));
+    }
 }
