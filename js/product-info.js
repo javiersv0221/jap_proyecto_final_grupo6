@@ -83,6 +83,53 @@ function createGallery(images, productName) {
     });
 }
 
+const MAX_QTY_PER_PURCHASE = 5;
+
+function createPurchaseCard(product) {
+    const purchase = document.createElement("div");
+    purchase.className = "purchase-card";
+
+    const row = document.createElement("div");
+    row.className = "purchase-row";
+
+    const label = document.createElement("span");
+    label.className = "purchase-label";
+    label.textContent = "Cantidad:";
+
+    const qtySelect = document.createElement("select");
+    qtySelect.id = "qty-select";
+    qtySelect.className = "purchase-qty-select";
+    for (let i = 1; i <= MAX_QTY_PER_PURCHASE; i++) {
+        const opt = document.createElement("option");
+        opt.value = String(i);
+        opt.textContent = i === 1 ? "1 unidad" : `${i} unidades`;
+        qtySelect.appendChild(opt);
+    }
+    row.append(label, qtySelect);
+
+    const actions = document.createElement("div");
+    actions.className = "purchase-actions";
+
+    const buyNow = document.createElement("button");
+    buyNow.type = "button";
+    buyNow.id = "buy-now-btn";
+    buyNow.className = "btn-secondary";
+    buyNow.innerHTML = `<span class="material-icons">shopping_cart_checkout</span>
+    Comprar ahora`;
+
+    const addBtn = document.createElement("button");
+    addBtn.type = "button";
+    addBtn.id = "buy-btn";
+    addBtn.className = "btn-primary";
+    addBtn.innerHTML = `<span class="material-icons">add_shopping_cart</span>
+    Agregar al carrito`;
+
+    actions.append(buyNow, addBtn);
+
+    purchase.append(row, actions);
+    return purchase;
+}
+
 // Renderizado del producto
 function renderProductInfo(product) {
     const container = document.getElementById("product-info");
@@ -119,79 +166,10 @@ function renderProductInfo(product) {
     desc.id = "product-description-text";
     desc.textContent = product.description ?? "";
 
-    details.append(sold, price, descTitle, desc);
+    details.append(sold, price, descTitle, desc, createPurchaseCard(product));
     container.append(gallery, details);
 
-const MAX_QTY_PER_PURCHASE = 5;
-
-
-const purchase = document.createElement("div");
-purchase.className = "purchase-card";
-
-
-const row = document.createElement("div");
-row.className = "purchase-row";
-
-
-const label = document.createElement("span");
-label.className = "purchase-label";
-label.textContent = "Cantidad:";
-
-
-const qtySelect = document.createElement("select");
-qtySelect.id = "qty-select";
-qtySelect.className = "purchase-qty-select";
-for (let i = 1; i <= MAX_QTY_PER_PURCHASE; i++) {
-  const opt = document.createElement("option");
-  opt.value = String(i);
-  opt.textContent = i === 1 ? "1 unidad" : `${i} unidades`;
-  qtySelect.appendChild(opt);
-}
-row.append(label, qtySelect);
-
-const actions = document.createElement("div");
-actions.className = "purchase-actions";
-
-
-const buyNow = document.createElement("button");
-buyNow.type = "button";
-buyNow.id = "buy-now-btn";
-buyNow.className = "btn-secondary";
-buyNow.innerHTML = `<span class="material-icons">shopping_cart_checkout</span>
-    Comprar ahora`;
-buyNow.addEventListener("click", () => {
-  const quantity = Math.max(1, Number(qtySelect?.value || 1));
-  openInlineCheckout({
-    name: product.name,
-    price: product.cost,
-    currency: product.currency || "USD",
-    image: Array.isArray(product.images) && product.images[0] ? product.images[0] : "",
-    quantity
-  });
-});
-
-
-const addBtn = document.createElement("button");
-addBtn.type = "button";
-addBtn.id = "buy-btn";
-addBtn.className = "btn-primary";
-addBtn.innerHTML = `<span class="material-icons">add_shopping_cart</span>
-    Agregar al carrito`;
-
-const feedbackP = document.createElement("p");
-feedbackP.id = "buy-feedback";
-feedbackP.className = "buy-feedback hidden";
-feedbackP.setAttribute("aria-live", "polite");
-feedbackP.textContent = "Producto agregado al carrito";
-
-actions.append(buyNow, addBtn, feedbackP);
-
-purchase.append(row, actions);
-details.append(sold, price, descTitle, desc, purchase);
-
-    
     createGallery(product.images, product.name);
-   
 }
 
 // Renderizado de productos relacionados
@@ -349,7 +327,6 @@ function renderProductComments(comments) {
 function setupPurchaseControls(product) {
   const buyBtn = document.getElementById("buy-btn");
   const qtySelect = document.getElementById("qty-select");
-  const feedback = document.getElementById("buy-feedback");
   if (!buyBtn || !product) return;
 
   buyBtn.addEventListener("click", () => {
@@ -501,16 +478,34 @@ function openInlineCheckout({ name, price, currency, image, quantity }) {
   const summary = document.getElementById("inline-summary");
   const total = (Number(price) || 0) * (Number(quantity) || 1);
 
-  summary.innerHTML = `
-    <div class="summary-row">
-      <img src="${image || ''}" alt="${name}" />
-      <div>
-        <strong>${name}</strong>
-        <div>${currency} ${Number(price).toLocaleString()} × ${quantity}</div>
-        <div><strong>Total: ${currency} ${total.toLocaleString()}</strong></div>
-      </div>
-    </div>
-  `;
+   // Limpiar el contenido anterior
+  summary.innerHTML = "";
+  // Crear el contenedor principal
+  const rowDiv = document.createElement("div");
+  rowDiv.className = "summary-row";
+  // Crear la imagen de forma segura
+  const img = document.createElement("img");
+  img.src = image || "";
+  img.alt = name;
+  rowDiv.appendChild(img);
+  // Crear el contenedor de texto
+  const textDiv = document.createElement("div");
+  // Nombre del producto
+  const nameStrong = document.createElement("strong");
+  nameStrong.textContent = name;
+  textDiv.appendChild(nameStrong);
+  // Precio y cantidad
+  const priceDiv = document.createElement("div");
+  priceDiv.textContent = `${currency} ${Number(price).toLocaleString()} × ${quantity}`;
+  textDiv.appendChild(priceDiv);
+  // Total
+  const totalDiv = document.createElement("div");
+  const totalStrong = document.createElement("strong");
+  totalStrong.textContent = `Total: ${currency} ${total.toLocaleString()}`;
+  totalDiv.appendChild(totalStrong);
+  textDiv.appendChild(totalDiv);
+  rowDiv.appendChild(textDiv);
+  summary.appendChild(rowDiv);
 
   panel.classList.remove("hidden");
 }

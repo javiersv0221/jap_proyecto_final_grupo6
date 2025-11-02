@@ -405,4 +405,14 @@ body {
         font-size: 28px;
     }
 }
-.modal { z-index: 99999 !important; }
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 560px) {
+  .grid-2 {
+    grid-template-columns: 1fr; /* apila en pantallas chicas */
+  }
+}
