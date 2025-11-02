@@ -189,3 +189,20 @@ function updateUserData(idUser, newData) {
         localStorage.setItem("users", JSON.stringify(users));
     }
 }
+
+function getCartKey() {
+  const sessionId = getSessionId();
+  return sessionId ? `cart_${sessionId}` : "cart_guest";
+}
+
+function loadUserCart() {
+  try {
+    return JSON.parse(localStorage.getItem(getCartKey()) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveUserCart(cart) {
+  localStorage.setItem(getCartKey(), JSON.stringify(cart));
+}
