@@ -207,33 +207,31 @@ function saveUserCart(cart) {
   localStorage.setItem(getCartKey(), JSON.stringify(cart));
 }
 
-// js/header-cart.js
-document.addEventListener("DOMContentLoaded", () => {
-  const badge = document.getElementById("cart-badge");
-  if (!badge) return;
-
-  function getCartCount() {
+// Actualiza el <span id="cart-badge"> con la suma de cantidades del carrito.
+window.renderCartBadge = function renderCartBadge() {
     try {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      return cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-    } catch {
-      return 0;
+        const el = document.getElementById("cart-badge");
+        if (!el) return;
+        const cart = loadUserCart();
+        const count = Array.isArray(cart) ? cart.length : 0;
+        el.textContent = String(count);
+    } catch (e) {
+        const el = document.getElementById("cart-badge");
+        if (el) el.textContent = "0";
     }
-  }
+};
 
-  function updateBadge() {
-    const count = getCartCount();
-    badge.textContent = count > 99 ? "99+" : count || "";
-  }
+// Actualizo el badge al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof window.renderCartBadge === 'function') window.renderCartBadge();
+});
 
-  // Inicializa y escucha cambios en localStorage
-  updateBadge();
-
-  window.addEventListener("storage", (ev) => {
-    if (ev.key === "cart") updateBadge();
-  });
-
-  // Si otras partes del código modifican el carrito sin recargar,
-  // podés disparar manualmente este evento:
-  window.addEventListener("cartUpdated", updateBadge);
+// Si el carrito se modifica en otra pestaña, actualizar aquí también
+window.addEventListener('storage', (e) => {
+    // actualizar sólo si cambia la clave del carrito del usuario o cualquier cart_ clave
+    const key = e.key;
+    if (!key) return;
+    if (key.startsWith('cart_') || key === 'cart_guest') {
+        if (typeof window.renderCartBadge === 'function') window.renderCartBadge();
+    }
 });

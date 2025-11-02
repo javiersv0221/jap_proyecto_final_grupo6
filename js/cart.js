@@ -22,7 +22,7 @@
   const inlineSuccess  = document.getElementById("inline-success");
   const inlineOk       = document.getElementById("inline-ok");
 
-  // ===== Utils =====
+  // ===== Utilidades =====
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
   const num = (v) => Number(v) || 0;
   const fmt = (n) => Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 });
@@ -65,7 +65,7 @@
       elTotals.appendChild(note);
     }
   }
-
+  
   // ===== Render de lista =====
   function renderList() {
     const cart = loadUserCart();
@@ -142,6 +142,8 @@
         // Actualizo subtotal de la fila y totales
         sub.textContent = `${it.currency || "USD"} ${fmt(v * num(it.price))}`;
         renderTotals();
+        // Aseguro que el badge también se actualice al cambiar cantidades (si existe la función global)
+        if (typeof window.renderCartBadge === 'function') window.renderCartBadge();
       });
 
       right.appendChild(sub);
@@ -248,6 +250,7 @@
   function refresh() {
     renderList();
     renderTotals();
+    if (typeof window.renderCartBadge === 'function') window.renderCartBadge();
   }
 
   // Init (el script está con defer, el DOM ya está listo)
