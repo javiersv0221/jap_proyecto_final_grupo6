@@ -206,3 +206,34 @@ function loadUserCart() {
 function saveUserCart(cart) {
   localStorage.setItem(getCartKey(), JSON.stringify(cart));
 }
+
+// js/header-cart.js
+document.addEventListener("DOMContentLoaded", () => {
+  const badge = document.getElementById("cart-badge");
+  if (!badge) return;
+
+  function getCartCount() {
+    try {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      return cart.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+    } catch {
+      return 0;
+    }
+  }
+
+  function updateBadge() {
+    const count = getCartCount();
+    badge.textContent = count > 99 ? "99+" : count || "";
+  }
+
+  // Inicializa y escucha cambios en localStorage
+  updateBadge();
+
+  window.addEventListener("storage", (ev) => {
+    if (ev.key === "cart") updateBadge();
+  });
+
+  // Si otras partes del código modifican el carrito sin recargar,
+  // podés disparar manualmente este evento:
+  window.addEventListener("cartUpdated", updateBadge);
+});

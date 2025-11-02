@@ -1,0 +1,259 @@
+/* ========== ESTILOS BASE ========== */
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background-color: var(--primary-background);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ========== HEADER ========== */
+.site-header {
+  background-color: var(--second-background);
+  color: #fff;
+  padding: 16px 0;
+}
+
+.site-header h1 {
+  margin: 0 0 10px 0;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.toolbar a,
+.toolbar button {
+  text-decoration: none;
+}
+
+/* ========== BOTONES ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.25s, transform 0.1s;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background-color: var(--enfasis-color);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #c77b34;
+}
+
+.btn-secondary {
+  background-color: #8884;
+  color: #fff;
+  border: 1px solid #ffffff33;
+}
+
+.btn-secondary:hover {
+  background-color: #9996;
+}
+
+.btn-danger {
+  background-color: #d34545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #b83838;
+}
+
+/* ========== CARDS ========== */
+.card {
+  background-color: color-mix(in srgb, var(--primary-background) 95%, black 5%);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.card h2,
+.card h3 {
+  margin: 0;
+  padding: 16px;
+  border-bottom: 1px solid var(--card-border);
+  font-size: 1.2rem;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+/* ========== GRID PRINCIPAL ========== */
+.cart-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .cart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== MENSAJE VACÍO ========== */
+.cart-empty {
+  padding: 24px;
+  background-color: color-mix(in srgb, var(--primary-background) 90%, #fff 10%);
+  border: 1px dashed var(--card-border);
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* ========== ITEMS DEL CARRITO ========== */
+.item {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.thumb {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+
+.name {
+  font-weight: 600;
+  margin: 0 0 4px 0;
+}
+
+.price {
+  color: var(--enfasis-color);
+  font-weight: 500;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.qty input {
+  width: 60px;
+  padding: 6px;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background-color: var(--primary-background);
+  color: var(--text-color);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+/* ========== TOTALES ========== */
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.total {
+  font-weight: 700;
+}
+
+/* ========== CHECKOUT ========== */
+#checkout-inline {
+  margin-top: 16px;
+  border-top: 1px solid var(--card-border);
+  padding-top: 16px;
+}
+
+#checkout-inline .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+#checkout-inline fieldset {
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+#checkout-inline legend {
+  font-weight: 600;
+}
+
+#checkout-inline label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+#checkout-inline input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--card-border);
+  background-color: var(--primary-background);
+  color: var(--text-color);
+}
+
+#inline-success {
+  text-align: center;
+  padding: 16px;
+}
+
+#inline-success h3 {
+  margin-top: 0;
+  color: var(--enfasis-color);
+}
+
+/* ========== TRANSICIONES Y DETALLES ========== */
+a {
+  color: var(--enfasis-color);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--card-border);
+}

@@ -2,54 +2,217 @@
 <html lang="es">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>eMercado - Todo lo que busques está aquí</title>
-  <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/font-awesome.min.css" rel="stylesheet">
-  <link href="css/styles.css" rel="stylesheet">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>eMercado - Todo lo que busques está aquí</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    <link href="css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/cart.css" rel="stylesheet"/>
+    <link href="css/styles.css" rel="stylesheet"/>
+</head>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav w-100 justify-content-between">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="categories.html">Categorías</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="sell.html">Vender</a>
-          </li>
-          <li class="nav-item">
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <main>
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
-      </div>
+  <div class="div-header">
+    <header>
+        <div class="logo">
+            <svg width="70" height="70" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
+                <text x="0" y="60" font-family="Inter, sans-serif" font-weight="600" font-size="100"
+                      font-style="italic">e
+                </text>
+            </svg>
+        </div>
+        <!-- <img class="logo" id="logo" src="assets/logo-e.svg" alt="logo"> -->
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Buscar...">
+            <button id="search-button" class="search-button">
+                <span class="material-icons">search</span>
+            </button>
+        </div>
+        <div class="nav-container">
+            <button class="navbar-toggle">
+                <span class="material-icons header-span">menu</span>
+            </button>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="index.html">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="categories.html">Categorías</a>
+                    </li>
+                    <li>
+                        <a href="sell.html">Vender</a>
+                    </li>
+                    <li class="nav-item">
+                        <button id="toggle-theme" class="toggle-theme">
+                            <span class="material-icons header-span">dark_mode</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+  <a href="cart.html" id="cart-link" class="cart-button" aria-label="Carrito">
+    <span class="material-icons">shopping_cart</span>
+    <span id="cart-badge" class="badge rounded-pill">0</span>
+  </a>
+</li>
+                    <li id="user-menu" class="user-menu">
+                        <button id="userMenuBtn" class="user-menu-btn">
+                            <img
+                                    id="userAvatarMini"
+                                    src="img/avatars/avatar0.png"
+                                    alt="Avatar usuario"
+                            />
+                            <span id="userNameDisplay">Usuario</span>
+                            <span class="material-icons header-span">expand_more</span>
+                        </button>
+
+                        <ul id="userDropdown" class="dropdown hidden">
+                            <li><a href="my-profile.html">Mi perfil</a></li>
+                            <li>
+                                <button id="logoutBtn" type="button">Cerrar sesión</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+</div>
+   <main class="container">
+    <!-- Mensaje de carrito vacío -->
+    <section id="empty" class="cart-empty" aria-live="polite" hidden>
+      <p>Tu carrito está vacío.</p>
+      <p><a href="index.html">Explorar productos</a></p>
+    </section>
+
+    <div class="cart-grid">
+      <!-- LISTA DE PRODUCTOS -->
+      <section class="card" aria-labelledby="cart-products-title">
+        <h2 id="cart-products-title">Productos</h2>
+        <div id="cart-list" class="card-body"><!-- items renderizados por JS --></div>
+      </section>
+
+      <!-- RESUMEN / CHECKOUT -->
+      <aside class="card" aria-labelledby="cart-summary-title">
+        <h2 id="cart-summary-title">Resumen</h2>
+        <div class="card-body">
+          <div id="totals" class="totals"><!-- totales por moneda (JS) --></div>
+          <div class="actions">
+            <button id="checkout-btn" class="btn btn-primary" type="button" disabled>
+              <span class="material-icons" aria-hidden="true">shopping_cart_checkout</span>
+              <span>Finalizar compra</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel de checkout ficticio (oculto por defecto) -->
+        <div id="checkout-inline" class="card-body" hidden>
+          <h3>Pago y Envío (simulado)</h3>
+
+          <!-- Resumen del pedido dentro del checkout -->
+          <div id="inline-summary" class="card">
+            <div class="card-body" id="inline-summary-body"><!-- líneas del pedido (JS) --></div>
+          </div>
+
+          <!-- Formulario (datos ficticios) -->
+          <form id="inline-form" novalidate>
+            <fieldset>
+              <legend>Datos de envío</legend>
+
+              <label>
+                <span>Nombre y apellido</span>
+                <input type="text" name="fullname" autocomplete="name" required>
+              </label>
+
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" autocomplete="email" required>
+              </label>
+
+              <label>
+                <span>Dirección</span>
+                <input type="text" name="address" autocomplete="address-line1" required>
+              </label>
+
+              <div class="grid-2">
+                <label>
+                  <span>Ciudad</span>
+                  <input type="text" name="city" autocomplete="address-level2" required>
+                </label>
+
+                <label>
+                  <span>Código Postal</span>
+                  <input type="text" name="zip" autocomplete="postal-code" required>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Pago</legend>
+
+              <label>
+                <span>Número de tarjeta</span>
+                <input type="text" name="card" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" required>
+              </label>
+
+              <div class="grid-2">
+                <label>
+                  <span>Vencimiento</span>
+                  <input type="text" name="exp" placeholder="MM/AA" required>
+                </label>
+
+                <label>
+                  <span>CVC</span>
+                  <input type="text" name="cvc" inputmode="numeric" maxlength="4" required>
+                </label>
+              </div>
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary" id="inline-pay">
+              <span class="material-icons" aria-hidden="true">payments</span>
+              <span>Pagar</span>
+            </button>
+          </form>
+
+          <!-- Mensaje de éxito -->
+          <div id="inline-success" class="card" hidden>
+            <div class="card-body">
+              <h3>¡Gracias por tu compra!</h3>
+              <p>Esta operación es una simulación con fines educativos.</p>
+              <button id="inline-ok" class="btn btn-secondary" type="button">
+                <span class="material-icons" aria-hidden="true">check_circle</span>
+                <span>Aceptar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
   </main>
-  <footer class="text-muted">
-    <div class="container">
-      <p class="float-end">
-        <a href="#">Volver arriba</a>
-      </p>
-      <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
+  <footer>
+    <div class="footer-container">
+        <p>
+            2025 - Este sitio forma parte de
+            <a href="https://jovenesaprogramar.edu.uy/" target="_blank">
+                Jóvenes a Programar
+            </a>
+        </p>
+        <p>
+            Proyecto con fines educativos. No realiza compras ni ventas reales y no tiene valor comercial.
+        </p>
+        <p class="team">
+            Desarrollado por:
+            <a href="https://github.com/javiersv0221" target="_blank">Javier Salvatierra</a> |
+            <a href="https://jonathangomez.dev" target="_blank">Jonathan Gomez</a> |
+            <a href="https://github.com/VeronicaAlvez" target="_blank">Verónica Alvez</a> |
+            <a href="https://github.com/leeachevalier" target="_blank">Leandro Chevalier</a>
+        </p>
     </div>
-  </footer>
+</footer>
   <div id="spinner-wrapper">
     <div class="lds-ring">
       <div></div>
