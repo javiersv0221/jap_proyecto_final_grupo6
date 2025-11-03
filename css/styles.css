@@ -529,3 +529,44 @@ footer a:hover {
 .dropdown li button:active {
   transform: scale(0.98);
 }
+
+.cart-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.15s ease;
+}
+
+.cart-button:hover {
+  transform: scale(1.1);
+  color: var(--enfasis-color);
+}
+
+/* Badge estilo notificación */
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background-color: var(--enfasis-color);
+  color: #fff;
+  border-radius: 9999px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+  min-width: 18px;
+  text-align: center;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+
+.badge:empty {
+  display: none;
+}

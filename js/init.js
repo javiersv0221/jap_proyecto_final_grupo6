@@ -189,3 +189,49 @@ function updateUserData(idUser, newData) {
         localStorage.setItem("users", JSON.stringify(users));
     }
 }
+
+function getCartKey() {
+  const sessionId = getSessionId();
+  return sessionId ? `cart_${sessionId}` : "cart_guest";
+}
+
+function loadUserCart() {
+  try {
+    return JSON.parse(localStorage.getItem(getCartKey()) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveUserCart(cart) {
+  localStorage.setItem(getCartKey(), JSON.stringify(cart));
+}
+
+// Actualiza el <span id="cart-badge"> con la suma de cantidades del carrito.
+window.renderCartBadge = function renderCartBadge() {
+    try {
+        const el = document.getElementById("cart-badge");
+        if (!el) return;
+        const cart = loadUserCart();
+        const count = Array.isArray(cart) ? cart.length : 0;
+        el.textContent = String(count);
+    } catch (e) {
+        const el = document.getElementById("cart-badge");
+        if (el) el.textContent = "0";
+    }
+};
+
+// Actualizo el badge al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof window.renderCartBadge === 'function') window.renderCartBadge();
+});
+
+// Si el carrito se modifica en otra pestaña, actualizar aquí también
+window.addEventListener('storage', (e) => {
+    // actualizar sólo si cambia la clave del carrito del usuario o cualquier cart_ clave
+    const key = e.key;
+    if (!key) return;
+    if (key.startsWith('cart_') || key === 'cart_guest') {
+        if (typeof window.renderCartBadge === 'function') window.renderCartBadge();
+    }
+});
