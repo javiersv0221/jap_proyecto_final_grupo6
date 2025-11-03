@@ -96,6 +96,7 @@ function createPurchaseCard(product) {
     label.className = "purchase-label";
     label.textContent = "Cantidad:";
 
+    //MENU DESPLEGABLE DE CANTIDAD
     const qtySelect = document.createElement("select");
     qtySelect.id = "qty-select";
     qtySelect.className = "purchase-qty-select";
@@ -117,6 +118,7 @@ function createPurchaseCard(product) {
     buyNow.innerHTML = `<span class="material-icons">shopping_cart_checkout</span>
     Comprar ahora`;
 
+    //BOTON AGREGAR AL CARRITO
     const addBtn = document.createElement("button");
     addBtn.type = "button";
     addBtn.id = "buy-btn";
@@ -324,6 +326,7 @@ function renderProductComments(comments) {
             listContainer.appendChild(item);
         });
 }
+
 function setupPurchaseControls(product) {
   const buyBtn = document.getElementById("buy-btn");
   const qtySelect = document.getElementById("qty-select");
