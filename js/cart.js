@@ -65,7 +65,7 @@
       elTotals.appendChild(note);
     }
   }
-  
+
   // ===== Render de lista =====
   function renderList() {
     const cart = loadUserCart();
@@ -234,6 +234,8 @@
         inlinePay.textContent = prevText;
         setHidden(inlineForm, true);
         setHidden(inlineSuccess, false);
+        saveUserCart([]);
+        refresh();
       }, 900);
     });
   }
