@@ -90,11 +90,18 @@
     </section>
 
     <div class="cart-grid">
-      <!-- LISTA DE PRODUCTOS -->
-      <section class="card" aria-labelledby="cart-products-title">
-        <h2 id="cart-products-title">Productos</h2>
-        <div id="cart-list" class="card-body"><!-- items renderizados por JS --></div>
-      </section>
+        <!-- LISTA DE PRODUCTOS -->
+        <section class="card" aria-labelledby="cart-products-title">
+            <h2 id="cart-products-title">Productos</h2>
+            <div id="cart-list" class="card-body"><!-- items renderizados por JS --></div>
+            <!--          btn limpiar carrito-->
+            <div class="card-body">
+                <button id="clear-cart" class="btn btn-secondary" type="button">
+                    <span class="material-icons" aria-hidden="true">delete_sweep</span>
+                    <span>Limpiar carrito</span>
+                </button>
+            </div>
+        </section>
 
       <!-- RESUMEN / CHECKOUT -->
       <aside class="card" aria-labelledby="cart-summary-title">
