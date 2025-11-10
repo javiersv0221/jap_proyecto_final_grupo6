@@ -356,9 +356,6 @@ function setupPurchaseControls(product) {
 
     if (typeof saveUserCart === "function") saveUserCart(cart);
     else localStorage.setItem("cart", JSON.stringify(cart));
-
-    
-    window.location.href = "cart.html";
   });
 }
 
