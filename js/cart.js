@@ -65,7 +65,7 @@
       elTotals.appendChild(note);
     }
   }
-  
+
   // ===== Render de lista =====
   function renderList() {
     const cart = loadUserCart();
@@ -73,11 +73,13 @@
 
     if (!Array.isArray(cart) || cart.length === 0) {
       setHidden(elEmpty, false);
+      setHidden(btnClear, true);
       btnCheckout.disabled = true;
       return;
     }
 
     setHidden(elEmpty, true);
+    setHidden(btnClear, false);
     btnCheckout.disabled = false;
 
     cart.forEach((it, idx) => {
@@ -232,6 +234,8 @@
         inlinePay.textContent = prevText;
         setHidden(inlineForm, true);
         setHidden(inlineSuccess, false);
+        saveUserCart([]);
+        refresh();
       }, 900);
     });
   }
