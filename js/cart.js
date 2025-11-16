@@ -278,12 +278,22 @@
   const elCostShipping = document.getElementById("cost-shipping");
   const elCostTotal = document.getElementById("cost-total");
 
-  // Subtotal en USD
+  // Convierte todos los productos a USD usando una tasa fija (ejemplo: 1 USD = 40 UYU)
+  // En producción, se recomienda obtener la tasa de cambio actualizada de una API.
   function getSubtotalUSD() {
     const cart = loadUserCart();
+    const UYU_TO_USD = 1 / 40; // Tasa fija de ejemplo
     return cart.reduce((acc, it) => {
-      if (it.currency === "USD")
-        acc += num(it.price) * clamp(num(it.quantity), 1, 99);
+      let priceUSD = 0;
+      if (it.currency === "USD") {
+        priceUSD = num(it.price);
+      } else if (it.currency === "UYU") {
+        priceUSD = num(it.price) * UYU_TO_USD;
+      } else {
+        // Si hay otras monedas, puedes agregar más conversiones aquí
+        priceUSD = 0; // Ignora productos de monedas desconocidas
+      }
+      acc += priceUSD * clamp(num(it.quantity), 1, 99);
       return acc;
     }, 0);
   }
@@ -324,4 +334,5 @@
 
   // Init (el script está con defer, el DOM ya está listo)
   refresh();
+  updateCostSection();
 })();

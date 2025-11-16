@@ -288,19 +288,18 @@ hr {
   border-top: 1px solid var(--card-border);
 }
 
-/* ========== COMPATIBILIDAD BOOSTRAP ========== */
+/* ========== COMPATIBILIDAD BOOTSTRAP ========== */
 
 /* Asegurar que Bootstrap pueda romper filas correctamente */
-.row {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
+.container .row {
+  margin-left: 0;
+  margin-right: 0;
 }
-
 /* Permitir que col-* se adapte en items internos */
-[class^="col-"],
-[class*=" col-"] {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+.container [class^="col-"],
+.container [class*=" col-"] {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .card {

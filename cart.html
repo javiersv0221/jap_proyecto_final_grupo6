@@ -284,6 +284,7 @@
         <!-- tipo de envio -->
         <section class="card" id="shipping-type">
           <h2>Tipo de envío</h2>
+          <form>
           <div class="card-body">
             <label>
               <input type="radio" name="shipping" value="0.15" required />
@@ -300,36 +301,42 @@
               Standard 12 a 15 días (5%)
             </label>
           </div>
+          </form>
         </section>
 
         <!-- direccion de envio -->
         <section class="card" id="shipping-address">
           <h2>Dirección de envío</h2>
           <div class="card-body">
-            <label
-              >Departamento
-              <input type="text" id="dept" required />
-            </label>
+            <form id="shipping-address-form" novalidate>
+              <label
+                >Departamento
+                <input type="text" id="dept" required />
+              </label>
 
-            <label
-              >Localidad
-              <input type="text" id="city" required />
-            </label>
+              <label
+                >Localidad
+                <input type="text" id="city" required />
+              </label>
 
-            <label
-              >Calle
-              <input type="text" id="street" required />
-            </label>
+              <label
+                >Calle
+                <input type="text" id="street" required />
+              </label>
 
-            <label
-              >Número
-              <input type="number" id="number" required />
-            </label>
+              <label
+                >Número
+                <input type="number" id="number" required />
+              </label>
 
-            <label
-              >Esquina
-              <input type="text" id="corner" required />
-            </label>
+              <label
+                >Esquina
+                <input type="text" id="corner" required />
+              </label>
+              <button type="submit" class="btn btn-primary mt-3">
+                Confirmar dirección
+              </button>
+            </form>
           </div>
         </section>
 
@@ -337,15 +344,17 @@
         <section class="card" id="payment-method">
           <h2>Forma de pago</h2>
           <div class="card-body">
-            <label>
-              <input type="radio" name="payment" value="credit" required />
-              Tarjeta de crédito </label
-            ><br />
+            <form id="payment-form">
+              <label>
+                <input type="radio" name="payment" value="credit" required />
+                Tarjeta de crédito </label
+              ><br />
 
-            <label>
-              <input type="radio" name="payment" value="bank" />
-              Transferencia bancaria
-            </label>
+              <label>
+                <input type="radio" name="payment" value="bank" />
+                Transferencia bancaria
+              </label>
+            </form>
           </div>
         </section>
 
