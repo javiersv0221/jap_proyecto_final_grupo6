@@ -1,31 +1,34 @@
 // js/cart.js
 (() => {
   // ===== Helpers de almacenamiento (compat con tus funciones globales) =====
-  const loadUserCart = (typeof window.loadUserCart === "function")
-    ? window.loadUserCart
-    : () => JSON.parse(localStorage.getItem("cart") || "[]");
+  const loadUserCart =
+    typeof window.loadUserCart === "function"
+      ? window.loadUserCart
+      : () => JSON.parse(localStorage.getItem("cart") || "[]");
 
-  const saveUserCart = (typeof window.saveUserCart === "function")
-    ? window.saveUserCart
-    : (cart) => localStorage.setItem("cart", JSON.stringify(cart));
+  const saveUserCart =
+    typeof window.saveUserCart === "function"
+      ? window.saveUserCart
+      : (cart) => localStorage.setItem("cart", JSON.stringify(cart));
 
   // ===== Cache de nodos =====
-  const elEmpty        = document.getElementById("empty");
-  const elList         = document.getElementById("cart-list");
-  const elTotals       = document.getElementById("totals");
-  const btnClear       = document.getElementById("clear-cart");
-  const btnCheckout    = document.getElementById("checkout-btn");
-  const checkoutPanel  = document.getElementById("checkout-inline");
-  const inlineSummary  = document.getElementById("inline-summary-body");
-  const inlineForm     = document.getElementById("inline-form");
-  const inlinePay      = document.getElementById("inline-pay");
-  const inlineSuccess  = document.getElementById("inline-success");
-  const inlineOk       = document.getElementById("inline-ok");
+  const elEmpty = document.getElementById("empty");
+  const elList = document.getElementById("cart-list");
+  const elTotals = document.getElementById("totals");
+  const btnClear = document.getElementById("clear-cart");
+  const btnCheckout = document.getElementById("checkout-btn");
+  const checkoutPanel = document.getElementById("checkout-inline");
+  const inlineSummary = document.getElementById("inline-summary-body");
+  const inlineForm = document.getElementById("inline-form");
+  const inlinePay = document.getElementById("inline-pay");
+  const inlineSuccess = document.getElementById("inline-success");
+  const inlineOk = document.getElementById("inline-ok");
 
   // ===== Utilidades =====
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
   const num = (v) => Number(v) || 0;
-  const fmt = (n) => Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  const fmt = (n) =>
+    Number(n).toLocaleString(undefined, { maximumFractionDigits: 2 });
 
   function groupTotals(cart) {
     // { USD: number, UYU: number, ... }
@@ -52,7 +55,9 @@
     Object.entries(groups).forEach(([cur, total]) => {
       const row = document.createElement("div");
       row.className = "summary-row";
-      row.innerHTML = `<span>Total (${cur})</span><span class="total">${cur} ${fmt(total)}</span>`;
+      row.innerHTML = `<span>Total (${cur})</span><span class="total">${cur} ${fmt(
+        total
+      )}</span>`;
       elTotals.appendChild(row);
     });
 
@@ -106,7 +111,11 @@
       qty.className = "qty";
       qty.innerHTML = `
         <span>Cantidad:</span>
-        <input type="number" min="1" max="99" step="1" value="${clamp(num(it.quantity),1,99)}" aria-label="Cantidad">
+        <input type="number" min="1" max="99" step="1" value="${clamp(
+          num(it.quantity),
+          1,
+          99
+        )}" aria-label="Cantidad">
       `;
 
       mid.appendChild(name);
@@ -145,7 +154,8 @@
         sub.textContent = `${it.currency || "USD"} ${fmt(v * num(it.price))}`;
         renderTotals();
         // Aseguro que el badge también se actualice al cambiar cantidades (si existe la función global)
-        if (typeof window.renderCartBadge === 'function') window.renderCartBadge();
+        if (typeof window.renderCartBadge === "function")
+          window.renderCartBadge();
       });
 
       right.appendChild(sub);
@@ -172,7 +182,9 @@
       const left = document.createElement("div");
       left.textContent = `${it.name} × ${clamp(num(it.quantity), 1, 99)}`;
       const right = document.createElement("div");
-      right.textContent = `${it.currency || "USD"} ${fmt(num(it.price) * clamp(num(it.quantity), 1, 99))}`;
+      right.textContent = `${it.currency || "USD"} ${fmt(
+        num(it.price) * clamp(num(it.quantity), 1, 99)
+      )}`;
       row.appendChild(left);
       row.appendChild(right);
       inlineSummary.appendChild(row);
@@ -189,7 +201,9 @@
     Object.entries(groups).forEach(([cur, total]) => {
       const row = document.createElement("div");
       row.className = "summary-row";
-      row.innerHTML = `<strong>Total (${cur})</strong><strong>${cur} ${fmt(total)}</strong>`;
+      row.innerHTML = `<strong>Total (${cur})</strong><strong>${cur} ${fmt(
+        total
+      )}</strong>`;
       inlineSummary.appendChild(row);
     });
 
@@ -254,8 +268,59 @@
   function refresh() {
     renderList();
     renderTotals();
-    if (typeof window.renderCartBadge === 'function') window.renderCartBadge();
+    if (typeof window.renderCartBadge === "function") window.renderCartBadge();
   }
+  // ====================================================
+  //   ENVÍO + PAGO + COSTOS
+  // ====================================================
+  const elShippingRadios = document.querySelectorAll("input[name='shipping']");
+  const elCostSubtotal = document.getElementById("cost-subtotal");
+  const elCostShipping = document.getElementById("cost-shipping");
+  const elCostTotal = document.getElementById("cost-total");
+
+  // Subtotal en USD
+  function getSubtotalUSD() {
+    const cart = loadUserCart();
+    return cart.reduce((acc, it) => {
+      if (it.currency === "USD")
+        acc += num(it.price) * clamp(num(it.quantity), 1, 99);
+      return acc;
+    }, 0);
+  }
+
+  // Recalcular costos
+  function updateCostSection() {
+    if (!elCostSubtotal || !elCostShipping || !elCostTotal) return;
+
+    const subtotal = getSubtotalUSD();
+    elCostSubtotal.textContent = `USD ${fmt(subtotal)}`;
+
+    const checked = document.querySelector("input[name='shipping']:checked");
+    if (!checked) {
+      elCostShipping.textContent = "-";
+      elCostTotal.textContent = "-";
+      return;
+    }
+
+    const percent = Number(checked.value);
+    const shippingCost = subtotal * percent;
+    const total = subtotal + shippingCost;
+
+    elCostShipping.textContent = `USD ${fmt(shippingCost)}`;
+    elCostTotal.textContent = `USD ${fmt(total)}`;
+  }
+
+  // Listeners de envío
+  elShippingRadios.forEach((radio) => {
+    radio.addEventListener("change", updateCostSection);
+  });
+
+  // Hook al refresh para recalcular siempre
+  const originalRefresh = refresh;
+  refresh = function () {
+    originalRefresh();
+    updateCostSection();
+  };
 
   // Init (el script está con defer, el DOM ya está listo)
   refresh();
