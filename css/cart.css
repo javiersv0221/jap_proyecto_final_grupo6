@@ -107,17 +107,28 @@ body {
 
 /* ========== GRID PRINCIPAL ========== */
 .cart-grid {
-  display: grid;
-  grid-template-columns: 1fr 360px;
+  display: flex;
   gap: 24px;
-  align-items: start;
+}
+
+.cart-grid > .cart-main {
+  flex: 1;
+}
+
+.cart-grid > .cart-summary {
+  width: 360px;
 }
 
 @media (max-width: 900px) {
   .cart-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .cart-grid > .cart-summary {
+    width: 100%;
   }
 }
+
 
 /* ========== MENSAJE VACÍO ========== */
 .cart-empty {
@@ -137,6 +148,24 @@ body {
   align-items: center;
   padding: 12px 0;
   border-bottom: 1px solid var(--card-border);
+}
+
+@media (max-width: 600px) {
+  .item {
+    grid-template-columns: 80px 1fr;
+  }
+
+  .actions {
+    grid-column: span 2;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .thumb {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 .item:last-child {
@@ -196,17 +225,18 @@ body {
 }
 
 /* ========== CHECKOUT ========== */
-#checkout-inline {
-  margin-top: 16px;
-  border-top: 1px solid var(--card-border);
-  padding-top: 16px;
-}
-
 #checkout-inline .grid-2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 12px;
+  grid-template-columns: 1fr 1fr;
 }
+
+@media (max-width: 600px) {
+  #checkout-inline .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 #checkout-inline fieldset {
   border: 1px solid var(--card-border);
@@ -257,3 +287,48 @@ hr {
   border: none;
   border-top: 1px solid var(--card-border);
 }
+
+/* ========== COMPATIBILIDAD BOOSTRAP ========== */
+
+/* Asegurar que Bootstrap pueda romper filas correctamente */
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Permitir que col-* se adapte en items internos */
+[class^="col-"],
+[class*=" col-"] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.card {
+  width: 100%;
+}
+
+/* =======================
+   FIX: Escritorio
+   ======================= */
+
+.cart-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Pantallas medianas → se mantiene en 2 columnas */
+@media (max-width: 1200px) {
+  .cart-grid {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+/* Pantallas chicas → 1 columna */
+@media (max-width: 900px) {
+  .cart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
