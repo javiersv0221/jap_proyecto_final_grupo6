@@ -356,6 +356,7 @@ function setupPurchaseControls(product) {
 
     if (typeof saveUserCart === "function") saveUserCart(cart);
     else localStorage.setItem("cart", JSON.stringify(cart));
+    if (typeof window.renderCartBadge === 'function') window.renderCartBadge();
   });
 }
 
@@ -377,12 +378,12 @@ function setupPurchaseControls(product) {
     }
 
     renderProductInfo(product);
-    setupPurchaseControls(product); 
+    setupPurchaseControls(product);
     renderRelatedProducts(product.relatedProducts ?? []);
 
     const comments = await fetchProductCommentsByProductID(id);
     renderProductComments(comments ?? []);
-    
+
     setupCommentForm(id);
 })();
 
