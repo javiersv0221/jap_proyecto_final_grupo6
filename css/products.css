@@ -111,6 +111,13 @@ label[for="list-grid"] span {
   gap: 1rem;
 }
 
+#products .product:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+  transition: box-shadow 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+}
+
 /* ----- Vista Lista ----- */
 #products.list-view .product {
   display: flex;
