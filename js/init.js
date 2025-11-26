@@ -117,8 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const isRegisterPage = path.includes("register.html");
     if (!isLoginPage && !isRegisterPage && !isLoggedIn) {
         window.location.href = "login.html";
-    }
-    else if ((isLoginPage || isRegisterPage) && isLoggedIn) {
+    }else if ((isLoginPage || isRegisterPage) && isLoggedIn) {
         window.location.href = "index.html";
     }
 });
