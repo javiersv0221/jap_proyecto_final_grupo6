@@ -111,11 +111,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!usersStr || JSON.parse(usersStr).length === 0) {
         localStorage.setItem("users", JSON.stringify([defaultUser]));
     }
-
     const isLoggedIn = localStorage.getItem("session") !== null;
-    if (!window.location.pathname.includes("login.html") && !isLoggedIn) {
+    const path = window.location.pathname;
+    const isLoginPage = path.includes("login.html");
+    const isRegisterPage = path.includes("register.html");
+    if (!isLoginPage && !isRegisterPage && !isLoggedIn) {
         window.location.href = "login.html";
-    } else if (window.location.pathname.includes("login.html") && isLoggedIn) {
+    }else if ((isLoginPage || isRegisterPage) && isLoggedIn) {
         window.location.href = "index.html";
     }
 });
