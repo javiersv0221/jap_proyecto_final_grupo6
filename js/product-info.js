@@ -1,5 +1,5 @@
 async function fetchProductByID(id) {
-    const jsonData = await getJSONData(PRODUCT_INFO_URL + id + EXT_TYPE);
+    const jsonData = await getJSONData(PRODUCT_INFO_URL + id);
     if (jsonData.status === "error") {
         console.error("fetchProductByID() - error: ", jsonData.data);
         return null;
@@ -9,7 +9,7 @@ async function fetchProductByID(id) {
 }
 
 async function fetchProductCommentsByProductID(id) {
-    const jsonData = await getJSONData(PRODUCT_INFO_COMMENTS_URL + id + EXT_TYPE);
+    const jsonData = await getJSONData(PRODUCT_INFO_COMMENTS_URL + 'product/' + id);
     if (jsonData.status === "error") {
         console.error("fetchProductCommentsByProductID() - error: ", jsonData.data);
         return null;
