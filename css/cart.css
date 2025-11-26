@@ -304,9 +304,6 @@ body {
 /* Mensajes de éxito y resumen ya tienen estilos base; asegurar contraste */
 #inline-success {
   background: color-mix(in srgb, var(--primary-background) 92%, white 8%);
-}
-
-#inline-success {
   text-align: center;
   padding: 16px;
 }
