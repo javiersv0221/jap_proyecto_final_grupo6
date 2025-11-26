@@ -289,13 +289,6 @@
         payload.payment.card = { number: cardNumber, exp, cvc };
       }
 
-      // Mostrar en consola el payload que se enviará al servidor (sin enmascarar)
-      try {
-        console.log('Checkout payload:', payload);
-      } catch (e) {
-        console.log('Checkout payload (raw):', payload);
-      }
-
       const url = (typeof window.CART_BUY_URL === 'string') ? window.CART_BUY_URL : (window.CART_BUY_URL || '/');
 
       // Mostrar spinner global si existe
@@ -311,12 +304,9 @@
 
       if (!res.ok) throw new Error(`Error ${res.status}`);
 
-      // respuesta simulada
-      const data = await res.json().catch(() => ({}));
-
       // Éxito: limpiar carrito y mostrar mensaje
       saveUserCart([]);
-      renderCartBadge && window.renderCartBadge && window.renderCartBadge();
+      window.renderCartBadge();
       if (inlineForm) inlineForm.reset();
       setHidden(inlineForm, true);
       setHidden(inlineSuccess, false);
