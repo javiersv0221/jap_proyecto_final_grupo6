@@ -289,7 +289,7 @@
         payload.payment.card = { number: cardNumber, exp, cvc };
       }
 
-      const url = (typeof window.CART_BUY_URL === 'string') ? window.CART_BUY_URL : (window.CART_BUY_URL || '/');
+      const url = (typeof window.CART_BUY_URL === 'string' && window.CART_BUY_URL) ? window.CART_BUY_URL : '/';
 
       // Mostrar spinner global si existe
       if (typeof window.showSpinner === 'function') window.showSpinner();
