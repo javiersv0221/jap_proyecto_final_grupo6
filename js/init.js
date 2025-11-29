@@ -1,7 +1,7 @@
 const URL_BASE = "http://localhost:3000/";
 
 const CATEGORIES_URL = URL_BASE + "categories/";
-const PRODUCTS_URL = URL_BASE + "products/";
+const PRODUCTS_URL = URL_BASE + "products";
 const PRODUCT_INFO_URL = URL_BASE + "products/";
 const PRODUCT_INFO_COMMENTS_URL = URL_BASE + "comments/";
 const CART_INFO_URL = URL_BASE + "cart/";
