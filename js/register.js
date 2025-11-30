@@ -1,74 +1,56 @@
 // register.js
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("registerForm");
-  if (!form) return;
+    const form = document.getElementById("registerForm");
+    const errorBox = document.getElementById("registerError");
 
-  const nameInput = document.getElementById("name");
-  const lastNameInput = document.getElementById("lastName");
-  const emailInput = document.getElementById("email");
-  const phoneInput = document.getElementById("phone");
-  const usernameInput = document.getElementById("username");
-  const passwordInput = document.getElementById("password");
-  const password2Input = document.getElementById("password2");
-  const errorBox = document.getElementById("registerError");
+    if (!form) return;
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    errorBox.textContent = "";
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (errorBox) errorBox.textContent = "";
 
-    const name = nameInput.value.trim();
-    const lastName = lastNameInput.value.trim();
-    const email = emailInput.value.trim();
-    const phone = phoneInput.value.trim();
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value;
-    const password2 = password2Input.value;
+        const nameInput = document.getElementById("name");
+        const lastNameInput = document.getElementById("lastName");
+        const emailInput = document.getElementById("email");
+        const phoneInput = document.getElementById("phone");
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const password2Input = document.getElementById("password2");
+        const errorBox = document.getElementById("registerError");
 
-    if (!name || !lastName || !email || !username || !password || !password2) {
-      errorBox.textContent = "Todos los campos obligatorios deben completarse.";
-      return;
-    }
 
-    if (password.length < 6) {
-      errorBox.textContent = "La contraseña debe tener al menos 6 caracteres.";
-      return;
-    }
+        if (!name || !lastName || !email || !username || !password || !password2) {
+            errorBox.textContent = "Todos los campos obligatorios deben completarse.";
+            return;
+        }
 
-    if (password !== password2) {
-      errorBox.textContent = "Las contraseñas no coinciden.";
-      return;
-    }
+        if (password.length < 6) {
+            errorBox.textContent = "La contraseña debe tener al menos 6 caracteres.";
+            return;
+        }
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+        if (password !== password2Input) {
+            if (errorBox) errorBox.textContent = "Las contraseñas no coinciden.";
+            return;
+        }
 
-    const exists = users.some(
-      (u) => u.email === email || u.username === username
-    );
-    if (exists) {
-      errorBox.textContent = "Ya existe una cuenta con ese correo o usuario.";
-      return;
-    }
+        // Preparar objeto para el backend
+        const newUser = {
+            username,
+            password,
+            name,
+            last_name: lastName,
+            phone,
+            email
+        };
 
-    const newId = users.length
-      ? Math.max(...users.map((u) => Number(u.id) || 0)) + 1
-      : 1;
+        const result = await getJSONData(REGISTER_URL, 'POST', newUser);
 
-    const newUser = {
-      id: newId,
-      username,
-      password,
-      name,
-      lastName,
-      email,
-      phone,
-      avatar: "img/avatars/avatar0.png",
-    };
-
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-
-    localStorage.setItem("session", JSON.stringify({ id: newUser.id }));
-
-    window.location.href = "index.html";
-  })
+        if (result.status === 'ok') {
+            alert("Usuario registrado con éxito. Por favor inicia sesión.");
+            window.location.href = "login.html";
+        } else {
+            if (errorBox) errorBox.textContent = result.data.messageForUser || result.data.message || "Error en el registro";
+        }
+    });
 });
