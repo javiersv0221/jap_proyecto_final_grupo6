@@ -55,7 +55,7 @@ input, button { font: inherit; }
   user-select: none;
 }
 
-/*  Form  */
+
 .form {
   display: grid;
   place-content: center;
@@ -170,7 +170,16 @@ input, button { font: inherit; }
 .pw-toggle.showing .eye { display: none; }
 .pw-toggle.showing .eye-off { display: block; }
 
-/* Responsive */
+
+.error-msg {
+  min-height: 1.25rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #c0392b;
+}
+
+
+
 
 @media (min-width: 768px) and (max-width: 1024px) {
   .loginGrid {

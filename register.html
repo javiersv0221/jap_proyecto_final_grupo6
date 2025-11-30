@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Registro - eMercado</title>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i"
+      rel="stylesheet"
+    />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link href="css/loginStyle.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <main class="login">
+      <div class="loginWarp">
+        <div class="loginGrid">
+          <section class="brand">
+            <div class="brandContent">
+              <h1 class="brandTitle">e-Mercado</h1>
+              <p class="brandSubtitle">
+                Todo lo que necesitás en un solo lugar
+              </p>
+              <img
+                class="brandImg"
+                src="img/brandImg.png"
+                alt="Logo de e-Mercado"
+              />
+            </div>
+          </section>
+
+          <section class="form">
+            <h2 class="formTitle">Crear cuenta</h2>
+
+            <form id="registerForm" class="formBody">
+              <!-- Nombre -->
+              <div class="mb-3">
+                <label for="name" class="formLabel">NOMBRE</label>
+                <input
+                  id="name"
+                  type="text"
+                  class="formControl"
+                  placeholder="Tu nombre"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="lastName" class="formLabel">APELLIDO</label>
+                <input
+                  id="lastName"
+                  type="text"
+                  class="formControl"
+                  placeholder="Tu apellido"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="formLabel">CORREO</label>
+                <input
+                  id="email"
+                  type="email"
+                  class="formControl"
+                  placeholder="ejemplo@ejemplo.com"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="phone" class="formLabel">TELÉFONO (OPCIONAL)</label>
+                <input
+                  id="phone"
+                  type="tel"
+                  class="formControl"
+                  placeholder="09x xxx xxx"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="username" class="formLabel">USUARIO</label>
+                <input
+                  id="username"
+                  type="text"
+                  class="formControl"
+                  placeholder="Nombre de usuario"
+                  required
+                />
+              </div>
+              <div>
+              <div class="mb-3">
+                <label for="password" class="formLabel">CONTRASEÑA</label>
+                <input
+                  id="password"
+                  type="password"
+                  class="formControl"
+                  placeholder="********"
+                  required
+                />
+                
+              </div>
+
+              <div class="mb-3">
+                <label for="password2" class="formLabel"
+                  >REPETIR CONTRASEÑA</label
+                >
+                <input
+                  id="password2"
+                  type="password"
+                  class="formControl"
+                  placeholder="********"
+                  required
+                />
+                
+              </div>
+              
+                </div>
+              <p id="registerError" class="error-msg"></p>
+
+              <button type="submit" class="formBtn">Registrarme</button>
+            </form>
+
+            <button
+              type="button"
+              class="formCta"
+              onclick="window.location.href='login.html'"
+            >
+              Ya tengo cuenta
+            </button>
+
+            <button id="toggle-theme" class="toggle-theme">
+              <span class="material-icons">dark_mode</span>
+            </button>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script src="js/init.js"></script>
+    <script src="js/register.js"></script>
+  </body>
+</html>

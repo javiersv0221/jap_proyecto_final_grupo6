@@ -237,34 +237,73 @@ body {
   }
 }
 
-
+#inline-summary, #inline-form{
+  margin-top: 10px;
+}
+/* Fieldsets: uso de variables, bordes y fondo suave */
 #checkout-inline fieldset {
   border: 1px solid var(--card-border);
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 10px;
+  padding: 14px;
   margin-bottom: 12px;
 }
 
 #checkout-inline legend {
-  font-weight: 600;
-}
-
-#checkout-inline label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 0.95rem;
-}
-
-#checkout-inline input {
-  width: 100%;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid var(--card-border);
-  background-color: var(--primary-background);
+  font-weight: 700;
+  padding: 0 8px;
   color: var(--text-color);
 }
 
+/* Etiquetas: diseño en línea cuando corresponda y espaciado consistente */
+#checkout-inline label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+/* Inputs de texto/número/email dentro del checkout */
+#checkout-inline input[type="text"],
+#checkout-inline input[type="email"],
+#checkout-inline input[type="number"] {
+  flex: 1 1 auto;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  background: var(--primary-background);
+  color: var(--text-color);
+  box-sizing: border-box;
+}
+
+/* Radios: tamaño y color de acento (soportado en navegadores modernos) */
+#checkout-inline input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--enfasis-color);
+}
+
+/* Cuando el radio va dentro de una etiqueta, alinearlo correctamente */
+#checkout-inline label > input[type="radio"] {
+  margin-right: 8px;
+}
+
+/* Detalles del pago por tarjeta (oculto/visible por JS) */
+#card-payment-details {
+  margin-top: 8px;
+}
+
+/* Ajustes visuales de botones dentro del checkout (usa las variables globales) */
+#checkout-inline .btn {
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+/* Mensajes de éxito y resumen ya tienen estilos base; asegurar contraste */
 #inline-success {
+  background: color-mix(in srgb, var(--primary-background) 92%, white 8%);
   text-align: center;
   padding: 16px;
 }
@@ -272,6 +311,38 @@ body {
 #inline-success h3 {
   margin-top: 0;
   color: var(--enfasis-color);
+}
+
+/* Desktop: en 'Datos de envío' mostrar label encima del input */
+@media (min-width: 900px) {
+  /* Aplica al fieldset de Datos de envío y al de Pago para apilar labels/inputs */
+  #checkout-inline fieldset:first-of-type label,
+  #checkout-inline fieldset#payment-fieldset label,
+  #checkout-inline #card-payment-details label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: var(--text-color);
+  }
+
+  /* Forzar que el input quede en la línea siguiente y ocupe todo el ancho */
+  #checkout-inline fieldset:first-of-type label > input,
+  #checkout-inline fieldset#payment-fieldset label > input,
+  #checkout-inline #card-payment-details label > input {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    box-sizing: border-box;
+  }
+
+  /* Si hay grupos en grid-2 dentro de los fieldsets objetivos, apilarlos */
+  #checkout-inline fieldset:first-of-type .grid-2,
+  #checkout-inline fieldset#payment-fieldset .grid-2,
+  #checkout-inline #card-payment-details .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 }
 
 /* ========== TRANSICIONES Y DETALLES ========== */

@@ -1,11 +1,13 @@
-const CATEGORIES_URL = "https://japceibal.github.io/emercado-api/cats/cat.json";
-const PUBLISH_PRODUCT_URL = "https://japceibal.github.io/emercado-api/sell/publish.json";
-const PRODUCTS_URL = "https://japceibal.github.io/emercado-api/cats_products/";
-const PRODUCT_INFO_URL = "https://japceibal.github.io/emercado-api/products/";
-const PRODUCT_INFO_COMMENTS_URL = "https://japceibal.github.io/emercado-api/products_comments/";
-const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
-const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
-const EXT_TYPE = ".json";
+const URL_BASE = "http://localhost:3000/";
+
+const CATEGORIES_URL = URL_BASE + "categories/";
+const PRODUCTS_URL = URL_BASE + "products";
+const PRODUCT_INFO_URL = URL_BASE + "products/";
+const PRODUCT_INFO_COMMENTS_URL = URL_BASE + "comments/";
+const CART_INFO_URL = URL_BASE + "cart/";
+
+const PUBLISH_PRODUCT_URL = URL_BASE + "emercado-api/sell/publish.json";
+const CART_BUY_URL = URL_BASE + "emercado-api/cart/buy.json";
 
 const searchInput = document.getElementById("search");
 const searchButton = document.getElementById("search-button");
@@ -111,11 +113,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!usersStr || JSON.parse(usersStr).length === 0) {
         localStorage.setItem("users", JSON.stringify([defaultUser]));
     }
-
     const isLoggedIn = localStorage.getItem("session") !== null;
-    if (!window.location.pathname.includes("login.html") && !isLoggedIn) {
+    const path = window.location.pathname;
+    const isLoginPage = path.includes("login.html");
+    const isRegisterPage = path.includes("register.html");
+    if (!isLoginPage && !isRegisterPage && !isLoggedIn) {
         window.location.href = "login.html";
-    } else if (window.location.pathname.includes("login.html") && isLoggedIn) {
+    }else if ((isLoginPage || isRegisterPage) && isLoggedIn) {
         window.location.href = "index.html";
     }
 });
