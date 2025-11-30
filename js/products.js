@@ -10,7 +10,7 @@ function getSearchQueryParam() {
 
 // Función que obtiene los productos de una categoría por su ID
 async function fetchProductsByCatID(id) {
-    const jsonData = await getJSONData(PRODUCTS_URL + id + EXT_TYPE);
+    const jsonData = await getJSONData(PRODUCTS_URL + '?cat_id=' + id);
     if (jsonData.status === "error") {
         console.error("fetchProductsByCatID() - error: ", jsonData.data);
         return null;
