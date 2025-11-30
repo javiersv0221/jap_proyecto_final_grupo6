@@ -109,9 +109,26 @@ if (navBtn) {
     const nav = document.querySelector("nav");
 
     navBtn.addEventListener("click", () => {
+        const userData = getCurrentUserData(sessionData.id);
         nav.classList.toggle("show");
     });
 }
+
+const getCurrentUserData = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) return null;
+
+    const result = await getJSONData(USERS_URL + "/self", 'GET');
+
+    if (result.status === 'ok') {
+        return result.data;
+    } else {
+        console.error("Error al obtener datos del usuario:", result.data.message);
+        return null;
+    }
+}
+
 
 // Verificación de Sesión y Usuario
 document.addEventListener("DOMContentLoaded", function () {
