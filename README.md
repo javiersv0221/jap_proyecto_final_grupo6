@@ -7,12 +7,12 @@ Este repositorio contiene la interfaz de usuario (Frontend) para el proyecto fin
 ## 👥 Equipo de Desarrollo
 **Grupo: 314 | Subgrupo: 6**
 
-| Integrante | Rol / Especialidad | GitHub |
-| :--- | :--- | :--- |
-| **Javier Salvatierra** | Lógica Backend, BD & Autenticación | [@javiersv0221](https://github.com/javiersv0221) |
-| **Jonathan Gomez** | Lógica Carrito & Integración Frontend-Backend | [@devJonathanGomez](https://github.com/devJonathanGomez) |
-| **Verónica Alvez** | Diseño UI/UX (Index, Sell) & Filtros | [@VeronicaAlvez](https://github.com/VeronicaAlvez) |
-| **Leandro Chevalier** | Registro de Usuarios & Diseño Categorías | [@leeachevalier](https://github.com/leeachevalier) |
+| Integrante | GitHub |
+| :--- | :--- |
+| **Javier Salvatierra** | [@javiersv0221](https://github.com/javiersv0221) |
+| **Jonathan Gomez** | [@devJonathanGomez](https://github.com/devJonathanGomez) |
+| **Verónica Alvez** | [@VeronicaAlvez](https://github.com/VeronicaAlvez) |
+| **Leandro Chevalier** | [@leeachevalier](https://github.com/leeachevalier) |
 
 ---
 
